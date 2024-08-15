@@ -1,0 +1,19 @@
+.star {
+  position: absolute;
+  width: 57%;
+}
+
+.btns {
+  margin-top: 50px;
+  display: flex;
+  gap: 200px;
+  justify-content: center;
+}
+
+.btn {
+  background-color: #9fff53;
+  width: 280px;
+  height: 83px;
+  border-radius: 10px;
+  font: 500 14px "Arial";
+}
