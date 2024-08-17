@@ -1,31 +1,54 @@
 .lab {
-  font: 900 40px "Arial";
-  margin-right: 25px;
-  margin-left: 120px;
+  background: none;
+  font: bold 32px "Montserrat";
 }
 
 .inp {
   background-color: #fff;
   text-align: center;
-  height: 25px;
-  border-radius: 5px;
-}
-
-.form {
-  display: flex;
+  height: 52px;
+  width: 403px;
+  border-radius: 18px;
+  border: none;
+  color: #6a6565;
+  font: 500 20px "Montserrat";
 }
 
 .btn {
-  height: 30px;
-  width: 60px;
-  margin-left: 260px;
+  height: 53px;
+  width: 200px;
+  position: absolute;
+  bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  border-radius: 37px;
+  border: none;
+  font: 200 32px "Montserrat";
+}
+.btn:hover {
+  background-color: #7b7b7b;
+}
+
+.block {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  background: #d6d6d6;
+  height: 380px;
+  width: 505px;
 }
 
 .back {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  height: 50px;
-  width: 50px;
-  background-color: red;
+  background: #d6d6d6;
+  text-align: center;
+  padding-top: 30px;
+  /* display: flex; */
+  /* justify-content: center; */
+}
+
+.form {
+  /* position: absolute; */
 }

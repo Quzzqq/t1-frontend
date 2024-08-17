@@ -1,0 +1,77 @@
+header {
+  background: #cecece;
+  height: 120px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  column-gap: 170px;
+}
+
+.star {
+  background: none;
+}
+
+.starLink {
+  position: absolute;
+  left: 50px;
+  background: none;
+}
+
+.btns {
+  background: #cecece;
+  margin-right: 80px;
+  /* display: flex; */
+  /* width: 500px; */
+  gap: 20px;
+}
+
+.find {
+  width: 362px;
+  height: 47px;
+  border: 2px solid;
+  border-radius: 26px;
+  text-align: center;
+  color: #6a6565;
+  font: 500 20px "Montserrat";
+}
+
+.signUp {
+  width: 180px;
+  height: 47px;
+  background: #6bc7d4;
+  color: white;
+  font: 500 20px "Montserrat";
+  border: 2px solid #000;
+  border-radius: 26px;
+}
+
+.signIn {
+  width: 146px;
+  height: 47px;
+  background: #6bc7d4;
+  color: white;
+  font: 500 20px "Montserrat";
+  border: 2px solid #000;
+  border-radius: 26px;
+}
+
+.link {
+  height: 0px;
+  width: 0px;
+  background: none;
+  margin-right: 20px;
+}
+
+.findBar {
+  position: relative;
+  background: none;
+}
+
+.findImg {
+  position: absolute;
+  background: none;
+  right: 15px;
+  top: 5px;
+  pointer-events: none;
+}

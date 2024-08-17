@@ -1,9 +1,18 @@
-import Home from "./pages/Home/Home";
+import Routes from "./routes/Routes.tsx";
+import { useEffect } from "react";
+import { fetchAuthMe } from "./redux/slices/auth.ts";
+import { useAppDispatch } from "./redux/store.ts";
+import Header from "./components/Header/Header.tsx";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, []);
   return (
     <>
-      <Home></Home>
+      <Routes />
     </>
   );
 }

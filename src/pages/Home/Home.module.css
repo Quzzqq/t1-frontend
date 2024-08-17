@@ -11,9 +11,13 @@
 }
 
 .btn {
-  background-color: #9fff53;
+  background-color: #7fe6f6;
   width: 280px;
   height: 83px;
   border-radius: 10px;
-  font: 500 14px "Arial";
+  font: 500 14px "Montserrat";
+}
+
+.searchBar {
+  /* background: #000; */
 }
