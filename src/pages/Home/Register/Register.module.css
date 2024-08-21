@@ -1,19 +1,3 @@
-.lab {
-  background: none;
-  font: bold 32px "Montserrat";
-}
-
-.inp {
-  background-color: #fff;
-  text-align: center;
-  height: 52px;
-  width: 403px;
-  border-radius: 18px;
-  border: none;
-  color: #6a6565;
-  font: 500 20px "Montserrat";
-}
-
 .btn {
   height: 53px;
   width: 200px;
@@ -38,15 +22,43 @@
   margin-top: 40px;
   background: #d6d6d6;
   height: 517px;
-  width: 505px;
+  width: 447px;
 }
 
 .back {
+  position: relative;
   background: #d6d6d6;
   text-align: center;
-  padding-top: 30px;
+  padding-top: 5px;
   /* display: flex; */
   /* justify-content: center; */
+}
+
+.lab {
+  background: none;
+  font: bold 16px "Montserrat";
+}
+
+.inp {
+  background-color: #fff;
+  text-align: center;
+  height: 36px;
+  width: 298px;
+  border-radius: 18px;
+  border: none;
+  color: #6a6565;
+  font: 500 20px "Montserrat";
+}
+
+.err {
+  position: absolute;
+  color: #e20000;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  background: none;
+  font: 600 14px "Montserrat";
 }
 
 .form {

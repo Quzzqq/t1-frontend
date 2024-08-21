@@ -2,9 +2,9 @@ header {
   background: #cecece;
   height: 120px;
   width: 100%;
-  display: flex;
-  justify-content: end;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: end; */
+  /* align-items: center; */
   column-gap: 170px;
 }
 
@@ -19,11 +19,12 @@ header {
 }
 
 .btns {
+  position: absolute;
+  right: 30px;
   background: #cecece;
   margin-right: 80px;
-  /* display: flex; */
-  /* width: 500px; */
   gap: 20px;
+  top: 35px;
 }
 
 .find {
@@ -64,8 +65,10 @@ header {
 }
 
 .findBar {
-  position: relative;
+  position: absolute;
   background: none;
+  left: 400px;
+  top: 35px;
 }
 
 .findImg {
@@ -74,4 +77,24 @@ header {
   right: 15px;
   top: 5px;
   pointer-events: none;
+}
+
+.logout {
+  position: absolute;
+  right: 50px;
+  top: 40px;
+  font: 800 16px "Montserrat";
+  height: 35px;
+  width: 74px;
+  background-color: #d72929;
+}
+
+.profile {
+  position: absolute;
+  right: 180px;
+  top: 40px;
+  font: 800 16px "Montserrat";
+  height: 35px;
+  width: 120px;
+  border-radius: 25px;
 }

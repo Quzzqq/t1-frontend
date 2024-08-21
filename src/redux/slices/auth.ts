@@ -1,28 +1,62 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axios/axios";
-import { ISignIn } from "../../pages/Home/types";
+import { ISignIn, ISignUp } from "../../pages/Home/types";
 import { IState } from "./types";
 
 export const fetchAuth = createAsyncThunk<ISignIn, ISignIn>(
   "auth/fetchAuth",
   async (params) => {
-    const { data } = await axios.post("/auth/login", params);
-    return data;
+    try {
+      const response = await axios.post("/api/auth/login", params, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (err) {
+      if (err.response.status) alert("Неверный логин или пароль");
+      console.log(err);
+    }
   }
 );
 
-export const fetchRegister = createAsyncThunk<ISignIn, ISignIn>(
+export const fetchRegister = createAsyncThunk<ISignUp, ISignUp>(
   "auth/fetchRegister",
   async (params) => {
-    const { data } = await axios.post("/auth/register", params);
-    return data;
+    try {
+      const response = await axios.post("/api/auth/register", params, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (err) {
+      if (err.response.status) alert("Пользователь с таким логином уже есть");
+      console.log(err);
+    }
   }
 );
+
+export const fetchUsers = createAsyncThunk("auth/fetchUsers", async () => {
+  try {
+    const response = await axios.get("/api/users");
+    return response.data;
+  } catch (err) {
+    if (err.response.status) alert("Ошибка");
+    console.log(err);
+  }
+});
+
+export const fetchRefresh = createAsyncThunk("auth/fetchRefresh", async () => {
+  try {
+    const response = await axios.get("/api/auth/refresh");
+    return response.data;
+  } catch (err) {
+    if (err.response.status) alert("Ошибка");
+    console.log(err);
+  }
+});
 
 export const fetchAuthMe = createAsyncThunk<ISignIn>(
   "auth/fetchAuthMe",
   async () => {
-    const { data } = await axios.get("/auth/me");
+    const { data } = await axios.get("/api/auth");
     return data;
   }
 );
@@ -82,5 +116,5 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-
+export const selectIsAuth = (state: any) => Boolean(state.auth.data);
 export const { logout } = authSlice.actions;

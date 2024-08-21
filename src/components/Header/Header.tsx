@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { logout, selectIsAuth } from "../../redux/slices/auth";
+import { useAppDispatch } from "../../redux/store";
 
 export default function Header() {
+  const navigate = useNavigate();
   const [location, setLocation] = useState<string>(window.location.pathname);
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useAppDispatch();
+  const onLeave = () => {
+    if (window.confirm("Вы действительно хотите выйти?")) {
+      dispatch(logout());
+      localStorage.removeItem("token");
+    }
+  };
   return (
     <header>
       <Link to={"/"} className={styles.starLink}>
@@ -41,32 +53,52 @@ export default function Header() {
           }}
         />
       </div>
-      <div className={styles.btns}>
-        <Link to={"/registration"} className={styles.link}>
+      {isAuth || localStorage.getItem("token") ? (
+        <div className={styles.signInBtns}>
+          <button className={styles.logout} onClick={onLeave}>
+            Выйти
+          </button>
           <button
-            className={styles.signUp}
-            style={
-              location === "/registration" ? { backgroundColor: "#7EEB4B" } : {}
-            }
+            className={styles.profile}
             onClick={() => {
-              setLocation("/registration");
+              navigate(`/user/${localStorage.getItem("id")}`);
             }}
           >
-            Регистрация
+            Профиль
           </button>
-        </Link>
-        <Link to={"/login"} className={styles.link}>
-          <button
-            className={styles.signIn}
-            style={location === "/login" ? { backgroundColor: "#7EEB4B" } : {}}
-            onClick={() => {
-              setLocation("/login");
-            }}
-          >
-            Войти
-          </button>
-        </Link>
-      </div>
+        </div>
+      ) : (
+        <div className={styles.btns}>
+          <Link to={"/registration"} className={styles.link}>
+            <button
+              className={styles.signUp}
+              style={
+                location === "/registration"
+                  ? { backgroundColor: "#7EEB4B" }
+                  : {}
+              }
+              onClick={() => {
+                setLocation("/registration");
+              }}
+            >
+              Регистрация
+            </button>
+          </Link>
+          <Link to={"/login"} className={styles.link}>
+            <button
+              className={styles.signIn}
+              style={
+                location === "/login" ? { backgroundColor: "#7EEB4B" } : {}
+              }
+              onClick={() => {
+                setLocation("/login");
+              }}
+            >
+              Войти
+            </button>
+          </Link>
+        </div>
+      )}
     </header>
   );
 }
