@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { logout, selectIsAuth } from "../../redux/slices/auth";
 import { useAppDispatch } from "../../redux/store";
+import star from "../img/star.png";
+import search from "../img/search.png";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -11,11 +13,14 @@ export default function Header() {
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
   const isAuth = useSelector(selectIsAuth);
+  const id = useSelector((state) => state.auth.data && state.auth.data.id);
   const dispatch = useAppDispatch();
   const onLeave = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
       dispatch(logout());
       localStorage.removeItem("token");
+      navigate("/");
+      setLocation("");
     }
   };
   return (
@@ -23,7 +28,7 @@ export default function Header() {
       <Link to={"/"} className={styles.starLink}>
         <img
           className={styles.star}
-          src="star.png"
+          src={star}
           alt="Логотип"
           onClick={() => {
             setLocation("");
@@ -32,7 +37,7 @@ export default function Header() {
       </Link>
       <div className={styles.findBar}>
         <img
-          src="search.png"
+          src={search}
           alt="find"
           className={styles.findImg}
           style={focus || value != "" ? { display: "none" } : {}}
@@ -61,7 +66,7 @@ export default function Header() {
           <button
             className={styles.profile}
             onClick={() => {
-              navigate(`/user/${localStorage.getItem("id")}`);
+              navigate(`/user/${id}`);
             }}
           >
             Профиль
