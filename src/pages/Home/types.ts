@@ -15,8 +15,4 @@ export interface IToken {
   accessToken: string;
 }
 
-export interface IAddInfo {
-  header: string;
-  text: string;
-  name: string;
-}
+

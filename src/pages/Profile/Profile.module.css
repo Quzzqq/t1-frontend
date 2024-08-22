@@ -21,13 +21,27 @@
 }
 
 .initialsTextDiv {
-  margin-top: 25px;
+  margin-top: 10px;
   background: none;
+  width: 260px;
+  text-align: center;
+}
+
+.fio {
+  background: none;
+  font: 700 20px "Montserrat";
 }
 
 .initialsText {
-  font: italic 32px "Montserrat";
-  background: none;
+  text-align: center;
+  font: italic 25px "Montserrat";
+  background: #fff;
+  width: 260px;
+  height: 30px;
+  margin: 5px;
+  border-radius: 25px;
+  border: none;
+  resize: none;
 }
 
 .infoAbout {
@@ -107,4 +121,30 @@
 
 .imgEdit {
   background: none;
+}
+
+.editBtns {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  background: none;
+  border: none;
+  right: 20px;
+  top: 30px;
+}
+
+.save {
+  border-radius: 25px;
+  height: 35px;
+  width: 120px;
+  background: #6fff37;
+  font: 600 18px "Montserrat";
+}
+
+.cancel {
+  border-radius: 25px;
+  height: 35px;
+  width: 120px;
+  background: #fb5858;
+  font: 600 18px "Montserrat";
 }

@@ -4,6 +4,7 @@ import Register from "../pages/Home/Register/Register";
 import Login from "../pages/Home/Login/Login";
 import Header from "../components/Header/Header";
 import Profile from "../pages/Profile/Profile";
+import Team from "../pages/Team/Team";
 
 export default function () {
   return (
@@ -14,6 +15,8 @@ export default function () {
         <Route path="/registration" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/user/:id" element={<Profile />}></Route>
+        <Route path="/team/:name" element={<Team />}></Route>
+        <Route path="*" element={<div>Not Found</div>} />
       </Routes>
     </BrowserRouter>
   );
