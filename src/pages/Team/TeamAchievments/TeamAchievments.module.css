@@ -1,0 +1,140 @@
+.achievmentArea {
+  background: none;
+  height: 390px;
+  max-height: 600px;
+  overflow: auto;
+  margin-top: 15px;
+}
+
+.achievment {
+  background: none;
+  display: flex;
+  column-gap: 20px;
+  justify-content: flex-start;
+  margin-left: 40px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.achievementName {
+  background: none;
+  text-align: center;
+  /* width: 205px; */
+  /* height: 50px; */
+}
+
+.achievementNameHeader {
+  font: 400 32px "Montserrrat";
+  background: none;
+}
+
+.achievementNameInp {
+  font: 200 16px "Montserrrat";
+  border-radius: 20px;
+  height: 41px;
+  width: 204px;
+  border: none;
+  padding: 5px;
+  text-align: center;
+}
+
+.achievementDescription {
+  background: none;
+  text-align: center;
+  /* width: 205px; */
+  /* height: 114px; */
+}
+
+.achievementDescriptionHeader {
+  font: 400 32px "Montserrrat";
+  background: none;
+}
+
+.achievementDescriptionInp {
+  font: 200 16px "Montserrrat";
+  border-radius: 20px;
+  height: 41px;
+  width: 820px;
+  border: none;
+  padding: 5px;
+  text-align: center;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  margin-top: 15px;
+}
+
+.deleteImg {
+  background: none;
+  margin-top: 25px;
+  height: 35px;
+  width: 35px;
+}
+
+.addBtn {
+  background: none;
+  border: none;
+  position: absolute;
+  /* top: 5px; */
+  width: 30px;
+  /* height: 30px; */
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.addImg {
+  background: none;
+}
+
+.achievmentArea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.achievmentArea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  height: 25px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.achievmentArea::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.editBtns {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  background: none;
+  border: none;
+  right: 20px;
+  top: 115px;
+}
+
+.save {
+  border-radius: 25px;
+  height: 35px;
+  width: 90px;
+  background: #6fff37;
+  font: 600 14px "Montserrat";
+}
+
+.cancel {
+  border-radius: 25px;
+  height: 35px;
+  width: 90px;
+  background: #fb5858;
+  font: 600 14px "Montserrat";
+}
+
+.error {
+  background: none;
+  color: red;
+  font: 300 14px "Montserrat";
+}
