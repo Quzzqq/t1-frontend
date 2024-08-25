@@ -36,9 +36,8 @@ instance.interceptors.response.use(
         const response = await instance.get("/api/auth/refresh", {
           withCredentials: true,
         });
-        console.log(response.request);
+        // console.log(response.request);
         localStorage.setItem("token", response.data.accessToken);
-        console.log("123");
         return instance.request(originalRequest);
       } catch (error) {
         console.log(error);

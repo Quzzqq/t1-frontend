@@ -1,4 +1,4 @@
 export interface IState {
-  data: any;
+  data: string;
   status: string;
 }

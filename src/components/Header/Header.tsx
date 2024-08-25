@@ -13,7 +13,7 @@ export default function Header() {
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
   const isAuth = useSelector(selectIsAuth);
-  const id = useSelector((state) => state.auth.data && state.auth.data.id);
+  const id = useSelector((state) => state.auth.data && state.auth.data.userId);
   const dispatch = useAppDispatch();
   const onLeave = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
@@ -23,6 +23,7 @@ export default function Header() {
       setLocation("");
     }
   };
+
   return (
     <header>
       <Link to={"/"} className={styles.starLink}>

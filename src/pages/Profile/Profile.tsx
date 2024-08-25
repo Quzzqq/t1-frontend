@@ -29,7 +29,7 @@ export default function Profile() {
   const [activeEdit, setActiveEdit] = useState(false);
   const { id } = useParams();
   const readOnly = !(
-    id == useSelector((state) => state.auth.data && state.auth.data.id)
+    id == useSelector((state) => state.auth.data && state.auth.data.userId)
   );
   useEffect(() => {
     const fetchData = async () => {

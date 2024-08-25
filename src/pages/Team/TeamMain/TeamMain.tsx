@@ -3,23 +3,28 @@ import ownerStar from "../../../components/img/ownerStar.png";
 import add from "../../../components/img/add.png";
 import deleteImg from "../../../components/img/delete.png";
 import { useEffect, useRef, useState } from "react";
+import { putTeamMainInfo, takeTeamMain } from "../../../service/teamService";
+import { useParams } from "react-router-dom";
+import { ITeamMain } from "../types";
 
 export default function TeamMain() {
+  const { id } = useParams("id");
   const [choise, setChoise] = useState("main");
-  const [data, setData] = useState({
-    text: "Команда разрабатывает что-то очень крутое",
-    users: {
-      first: { name: "William", role: "OWNER", id: "1" },
-      second: { name: "Lilia", role: "MEMBER", id: "2" },
-      third: { name: "Lilia", role: "MEMBER", id: "3" },
-      gsd: { name: "Lilia", role: "MEMBER", id: "4" },
-      fsdafasd: { name: "Lilia", role: "MEMBER", id: "5" },
-      fgads: { name: "Lilia", role: "MEMBER", id: "6" },
-      das: { name: "Lilia", role: "MEMBER", id: "7" },
-      asfv: { name: "Lilia", role: "MEMBER", id: "8" },
-      fads: { name: "Lilia", role: "MEMBER", id: "9" },
-    },
-  });
+  // const [data, setData] = useState({
+  //   text: "Команда разрабатывает что-то очень крутое",
+  //   users: {
+  //     first: { name: "William", role: "OWNER", id: "1" },
+  //     second: { name: "Lilia", role: "MEMBER", id: "2" },
+  //     third: { name: "Lilia", role: "MEMBER", id: "3" },
+  //     gsd: { name: "Lilia", role: "MEMBER", id: "4" },
+  //     fsdafasd: { name: "Lilia", role: "MEMBER", id: "5" },
+  //     fgads: { name: "Lilia", role: "MEMBER", id: "6" },
+  //     das: { name: "Lilia", role: "MEMBER", id: "7" },
+  //     asfv: { name: "Lilia", role: "MEMBER", id: "8" },
+  //     fads: { name: "Lilia", role: "MEMBER", id: "9" },
+  //   },
+  // });
+  const [data, setData] = useState<ITeamMain>();
   const [tempData, setTempData] = useState();
   const [activeEdit, setActiveEdit] = useState(false);
   const membersAreaRef = useRef(null);
@@ -32,9 +37,8 @@ export default function TeamMain() {
       membersArea.style.overflowY = "hidden";
     }
   };
-
   const onSave = async () => {
-    // await profileSave(data);
+    await putTeamMainInfo(id, data);
     setActiveEdit(false);
     setTempData(data);
   };
@@ -44,9 +48,13 @@ export default function TeamMain() {
     setActiveEdit(false);
   };
   useEffect(() => {
+    const takeResponse = async () => {
+      const response = await takeTeamMain(id);
+      setData(response);
+    };
+    takeResponse();
     setTempData(data);
   }, []);
-
   return (
     <div className={styles.all}>
       <div className={styles.descriptionArea}>
@@ -54,10 +62,10 @@ export default function TeamMain() {
         <textarea
           className={styles.descriptionText}
           name="descriptionText"
-          value={data.text}
+          value={data?.description}
           onChange={(e) => {
             setActiveEdit(true);
-            setData((prev) => ({ ...prev, text: e.target.value }));
+            setData((prev) => ({ ...prev, description: e.target.value }));
           }}
         />
       </div>
@@ -70,43 +78,47 @@ export default function TeamMain() {
           <div className={styles.memberInArea}>
             <h4 className={styles.membersName}>Участники</h4>
             <div className={styles.memberPeoples}>
-              {Object.entries(data.users).map(([key, people]) => (
-                <div key={people.id} style={{ background: "none" }}>
-                  <p key={people.name} className={styles.name}>
-                    {people.role == "OWNER" && (
-                      <button className={styles.ownerBtn}>
-                        <img
-                          src={ownerStar}
-                          alt="OWNER"
-                          className={styles.ownerImg}
-                        />
-                      </button>
-                    )}
-                    {people.name}
-                    {people.role !== "OWNER" && (
-                      <button
-                        className={styles.deleteBtn}
-                        onClick={() => {
-                          setActiveEdit(true);
-                          const updatedUsers = Object.entries(data.users)
-                            .filter(([k, p]) => k !== key)
-                            .reduce((acc, [k, p]) => ({ ...acc, [k]: p }), {});
-                          setData((prev) => ({
-                            ...prev,
-                            users: updatedUsers,
-                          }));
-                        }}
-                      >
-                        <img
-                          src={deleteImg}
-                          alt="delete"
-                          className={styles.deleteImg}
-                        />
-                      </button>
-                    )}
-                  </p>
-                </div>
-              ))}
+              {data &&
+                Object.entries(data?.users).map(([key, people]) => (
+                  <div key={people.id} style={{ background: "none" }}>
+                    <p key={people.name} className={styles.name}>
+                      {people.teamRole == "OWNER" && (
+                        <button className={styles.ownerBtn}>
+                          <img
+                            src={ownerStar}
+                            alt="OWNER"
+                            className={styles.ownerImg}
+                          />
+                        </button>
+                      )}
+                      {people.name}
+                      {people.teamRole !== "OWNER" && (
+                        <button
+                          className={styles.deleteBtn}
+                          onClick={() => {
+                            setActiveEdit(true);
+                            const updatedUsers = Object.entries(data.users)
+                              .filter(([k, p]) => k !== key)
+                              .reduce(
+                                (acc, [k, p]) => ({ ...acc, [k]: p }),
+                                {}
+                              );
+                            setData((prev) => ({
+                              ...prev,
+                              users: updatedUsers,
+                            }));
+                          }}
+                        >
+                          <img
+                            src={deleteImg}
+                            alt="delete"
+                            className={styles.deleteImg}
+                          />
+                        </button>
+                      )}
+                    </p>
+                  </div>
+                ))}
             </div>
             <div className={styles.roll}></div>
           </div>

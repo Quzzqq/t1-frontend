@@ -15,7 +15,7 @@ export default function () {
         <Route path="/registration" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/user/:id" element={<Profile />}></Route>
-        <Route path="/team/:name" element={<Team />}></Route>
+        <Route path="/team/:id" element={<Team />}></Route>
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
     </BrowserRouter>
