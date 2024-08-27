@@ -10,20 +10,6 @@ import { ITeamMain } from "../types";
 export default function TeamMain() {
   const { id } = useParams("id");
   const [choise, setChoise] = useState("main");
-  // const [data, setData] = useState({
-  //   text: "Команда разрабатывает что-то очень крутое",
-  //   users: {
-  //     first: { name: "William", role: "OWNER", id: "1" },
-  //     second: { name: "Lilia", role: "MEMBER", id: "2" },
-  //     third: { name: "Lilia", role: "MEMBER", id: "3" },
-  //     gsd: { name: "Lilia", role: "MEMBER", id: "4" },
-  //     fsdafasd: { name: "Lilia", role: "MEMBER", id: "5" },
-  //     fgads: { name: "Lilia", role: "MEMBER", id: "6" },
-  //     das: { name: "Lilia", role: "MEMBER", id: "7" },
-  //     asfv: { name: "Lilia", role: "MEMBER", id: "8" },
-  //     fads: { name: "Lilia", role: "MEMBER", id: "9" },
-  //   },
-  // });
   const [data, setData] = useState<ITeamMain>();
   const [tempData, setTempData] = useState();
   const [activeEdit, setActiveEdit] = useState(false);

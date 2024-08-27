@@ -21,3 +21,89 @@
 .searchBar {
   /* background: #000; */
 }
+
+.all {
+  display: flex;
+  background: none;
+  justify-content: start;
+  gap: 50px;
+  margin-left: 260px;
+  margin-top: 40px;
+}
+
+.teamsAreaFull {
+  text-align: center;
+  background: none;
+  width: 842px;
+}
+
+.teamsArea {
+  background: none;
+}
+
+.team {
+  background: #d9d9d9;
+  width: 842px;
+  height: 144px;
+  border-radius: 20px;
+  position: relative;
+}
+
+.teamName {
+  position: absolute;
+  background: none;
+  top: 30px;
+  left: 40px;
+  font: 700 48px "Montserrat";
+}
+
+.teamCount {
+  position: absolute;
+  background: none;
+  font: 300 20px "Montserrat";
+  left: 40px;
+  bottom: 10px;
+}
+
+.teamAdmin {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  border-radius: 4px;
+  font: 300 18px "Montserrat";
+  background: #fff;
+  padding-right: 5px;
+  /* align-content: center; */
+}
+
+.teamAdminImg {
+  background: none;
+  padding-right: 7px;
+  width: 25px;
+  padding-top: 3px;
+  /* height: 15px; */
+  /* position: absolute; */
+}
+
+.filterArea {
+  background: #d9d9d9;
+  text-align: center;
+  width: 224px;
+  max-width: 224px;
+}
+
+.addTeam {
+  background: #fff;
+  border: none;
+  border-radius: 13px;
+  padding: 15px;
+  font: 500 23px "Montserrat";
+  height: 73px;
+  width: 192px;
+  margin-top: 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: #000;
+}

@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
-
+  // console.log(1);
   return (
     <>
       <Routes />

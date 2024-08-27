@@ -1,0 +1,161 @@
+.all {
+  display: flex;
+  gap: 25px;
+  background: none;
+  margin-top: 30px;
+}
+.channels {
+  width: 272px;
+  min-height: 251px;
+  background: none;
+  text-align: center;
+}
+
+.channelsName {
+  background: none;
+  font: 400 32px "Montserrat";
+  margin-bottom: 20px;
+}
+
+.channelsBtns {
+  background: none;
+  max-height: 300px;
+  overflow: auto;
+}
+.channelsBtns::-webkit-scrollbar {
+  width: 10px;
+}
+
+.channelsBtns::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  height: 25px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.channelsBtns::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.channelsBtn {
+  position: relative;
+  background: #fff;
+  height: 36px;
+  width: 192px;
+  font: 200 20px "Montserrat";
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 15px;
+  border: none;
+}
+
+.deleteBtn {
+  background: none;
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  border: none;
+}
+
+.deleteImg {
+  background: none;
+}
+
+.add {
+  background: none;
+  border: none;
+}
+
+.addImg {
+  background: none;
+}
+
+.descriptionArea {
+  background: none;
+  text-align: center;
+}
+
+.descriptionName {
+  background: none;
+  font: 400 32px "Montserrat";
+  margin-bottom: 20px;
+}
+
+.description {
+  background: #fff;
+  height: 314px;
+  width: 310px;
+  font: 300 20px "Montserrat";
+  border-radius: 8px;
+  padding: 5px;
+  resize: none;
+}
+
+.tasks {
+  text-align: center;
+  background: none;
+}
+
+.tasksName {
+  background: none;
+  font: 400 32px "Montserrat";
+  margin-bottom: 20px;
+}
+
+.tasksArea {
+  height: 325px;
+  width: 509px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.tasksHeader {
+  display: flex;
+  gap: 10px;
+  background: none;
+  margin-bottom: 25px;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.tasksHeaderBtn {
+  background: #d9d9d9;
+  width: 85px;
+  height: 24px;
+  border-radius: 5px;
+  text-align: center;
+  font: 300 11px "Montserrat";
+  border: none;
+}
+
+.taskArea {
+  max-height: 500px;
+  background: none;
+}
+
+.task {
+  position: relative;
+  height: 34px;
+  width: 462px;
+  border-radius: 6px;
+  font: 400 13px "Montserrat";
+  background: #f5b1b1;
+  margin-left: 15px;
+  text-align: start;
+  align-content: center;
+  padding-left: 20px;
+  /* padding-top: 20px; */
+}
+
+.taskP {
+  position: absolute;
+  right: 60px;
+  background: #fff;
+  width: 131px;
+  height: 16px;
+  border-radius: 5px;
+  font: 700 11px "Montserrat";
+  text-align: center;
+  top: 9px;
+}

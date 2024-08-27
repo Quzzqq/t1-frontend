@@ -3,25 +3,13 @@ import deletePng from "../../../components/img/delete.png";
 import addPng from "../../../components/img/add.png";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { takeTeamAchievemnets } from "../../../service/teamService";
+import { takeTeamAchievements } from "../../../service/teamService";
 import { ITeamAchievements } from "../types";
 
 export default function TeamAchievments() {
   const { id } = useParams("id");
   const [activeEdit, setActiveEdit] = useState(false);
   const [data, setData] = useState<ITeamAchievements>();
-  // const [data, setData] = useState([
-  //   {
-  //     id: 0,
-  //     achievementName: "Новое достижение",
-  //     description: "Новое описание достижения",
-  //   },
-  //   {
-  //     id: 1,
-  //     achievementName: "Новое",
-  //     description: "Новое достижения",
-  //   },
-  // ]);
   const [tempData, setTempData] = useState(data);
   const [error, setError] = useState(false);
   const achievmentAreaRef = useRef(null);
@@ -66,7 +54,7 @@ export default function TeamAchievments() {
 
   useEffect(() => {
     const takeResponse = async () => {
-      const response = await takeTeamAchievemnets(id);
+      const response = await takeTeamAchievements(id);
       setData(response);
     };
     takeResponse();

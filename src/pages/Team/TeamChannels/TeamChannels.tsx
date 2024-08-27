@@ -1,51 +1,97 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./TeamChannels.module.css";
-import deletePng from "../../../components/img/delete.png";
-import addPng from "../../../components/img/add.png";
+import deleteImg from "../../../components/img/delete.png";
+import addImg from "../../../components/img/add.png";
 
 export default function TeamChannel() {
-  const [dataChannels, setDataChannels] = useState({
-    0: {
-      name: "front",
-      description: "Поверстать",
-      tasks: ["Сверстать страницу", "Придумать решение задачи"],
-      id: "0",
-    },
-    1: {
-      name: "backend",
-      description: "Сервер написать",
-      tasks: ["Сервер написать", "Придумать решение задачи"],
-      id: "1",
-    },
-    2: {
-      name: "design",
-      description: "Сделать figma",
-      tasks: ["Сделать figma", "Придумать решение задачи"],
-      id: "2",
-    },
-  });
-  const [selectedChannel, setSelecteDChannel] = useState(dataChannels[0]);
+  const [dataChannels, setDataChannels] = useState([
+    { id: 0, channelTheme: "frontend" },
+    { id: 1, channelTheme: "backend" },
+    { id: 2, channelTheme: "designs" },
+    { id: 3, channelTheme: "frontend" },
+    { id: 4, channelTheme: "backend" },
+    { id: 5, channelTheme: "designs" },
+    { id: 6, channelTheme: "frontend" },
+    // { id: 7, channelTheme: "backend" },
+    // { id: 8, channelTheme: "designs" },
+  ]);
+  const tempDataChannel = {
+    description: "Новое описание задачи",
+    tasks: [
+      {
+        id: 1,
+        taskName: "Новая задача",
+        status: "BACKLOG",
+        userId: 1,
+      },
+    ],
+  };
+
+  const [selectedChannel, setSelectedChannel] = useState(dataChannels[0].id);
   const [selectedTypeTask, setSelectedTypeTask] = useState("all");
+  const channelsAreaRef = useRef(null);
+  const tasksAreaRef = useRef(null);
+
+  const handleScrollChannelsArea = (string) => {
+    const channelsArea = channelsAreaRef.current;
+    if (channelsArea.scrollHeight > channelsArea.clientHeight) {
+      channelsArea.style.overflowY = "scroll";
+    } else {
+      channelsArea.style.overflowY = "hidden";
+    }
+  };
+  const handleScrollTasksArea = (string) => {
+    const tasksArea = tasksAreaRef.current;
+    if (tasksArea.scrollHeight > tasksArea.clientHeight) {
+      tasksArea.style.overflowY = "scroll";
+    } else {
+      tasksArea.style.overflowY = "hidden";
+    }
+  };
+
   return (
     <div className={styles.all}>
       <div className={styles.channels}>
         <h3 className={styles.channelsName}>Каналы</h3>
-        {Object.values(dataChannels).map((channel) => (
-          <button
-            className={styles.channelsBtn}
-            value={channel.name}
-            onClick={() => selectedChannel(dataChannels[channel.id])}
-          >
-            <img src={deletePng} alt="delete" />
-          </button>
-        ))}
+        <div
+          className={styles.channelsBtns}
+          ref={channelsAreaRef}
+          onScroll={handleScrollChannelsArea}
+        >
+          {Object.values(dataChannels).map((channel) => (
+            <button
+              className={styles.channelsBtn}
+              value={channel.channelTheme}
+              onClick={() => setSelectedChannel(channel.id)}
+              style={
+                selectedChannel == channel.id ? { background: "#9A9A9A" } : {}
+              }
+              key={channel.id}
+            >
+              {channel.channelTheme}
+              <button className={styles.deleteBtn}>
+                <img
+                  src={deleteImg}
+                  alt="delete"
+                  className={styles.deleteImg}
+                />
+              </button>
+            </button>
+          ))}
+        </div>
+
         <button className={styles.add}>
-          <img src={addPng} alt="add" />
+          <img src={addImg} alt="add" className={styles.addImg} />
         </button>
       </div>
-      <div className={styles.description}>
+
+      <div className={styles.descriptionArea}>
         <h3 className={styles.descriptionName}>Описание</h3>
-        <input type="text" value={selectedChannel.description} />
+        <textarea
+          type="text"
+          value={tempDataChannel.taskName}
+          className={styles.description}
+        />
       </div>
       <div className={styles.tasks}>
         <h3 className={styles.tasksName}>Задачи</h3>
@@ -82,13 +128,28 @@ export default function TeamChannel() {
               Готово
             </button>
           </div>
-          <div className={styles.taskArea}>
-            {Object.values(selectedChannel).map((task) => (
-              <div className={styles.task}>
-                <p className={styles.taskP}>{}</p>
+          <div
+            className={styles.taskArea}
+            ref={tasksAreaRef}
+            onScroll={handleScrollTasksArea}
+          >
+            {Object.values(tempDataChannel.tasks).map((task) => (
+              <div className={styles.task} key={task.id}>
+                {task.taskName}
+                <div className={styles.taskP}>{task.status}</div>
+                <button className={styles.deleteBtn}>
+                  <img
+                    src={deleteImg}
+                    alt="delete"
+                    className={styles.deleteImg}
+                  />
+                </button>
               </div>
             ))}
           </div>
+          <button className={styles.add}>
+            <img src={addImg} alt="add" className={styles.addImg} />
+          </button>
         </div>
       </div>
     </div>

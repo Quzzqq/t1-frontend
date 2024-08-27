@@ -26,9 +26,18 @@ export const putTeamMainInfo = async (id, data) => {
   }
 };
 
-export const takeTeamAchievemnets = async (id) => {
+export const takeTeamAchievements = async (id) => {
   try {
     const response = await instance.get(`/api/achievements/team/${id}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const putTeamAchievement = async (id) => {
+  try {
+    const response = await instance.get(`/api/achievements/${id}`);
     return response.data;
   } catch (e) {
     console.log(e);

@@ -4,20 +4,26 @@ import TeamMain from "./TeamMain/TeamMain";
 import TeamAchievments from "./TeamAchievments/TeamAchievments";
 import { useParams } from "react-router-dom";
 import { takeNameTeam } from "../../service/teamService";
+import TeamChannel from "./TeamChannels/TeamChannels";
+import { useSelector } from "react-redux";
 
 export default function Team() {
   const [choise, setChoise] = useState("main");
   const [name, setName] = useState("");
-  const { id } = useParams();
-
+  // const userId = useSelector((state) => state.auth.data && state.auth.data.id);
+  // const groupId = useParams().id;
+  const userId = 1;
+  const groupId = 1;
+  const [admin, setAdmin] = useState(userId == groupId);
   useEffect(() => {
     const takeName = async () => {
-      const response = await takeNameTeam(id);
+      const response = await takeNameTeam(groupId);
       setName(response);
     };
     takeName();
   }, []);
-
+  console.log(admin);
+  console.log(name);
   return (
     <>
       <div className={styles.back}>
@@ -49,6 +55,7 @@ export default function Team() {
         </div>
         {choise == "main" && <TeamMain name={name} />}
         {choise == "achievements" && <TeamAchievments />}
+        {choise == "channels" && <TeamChannel />}
       </div>
     </>
   );
