@@ -3,11 +3,16 @@ import deletePng from "../../../components/img/delete.png";
 import addPng from "../../../components/img/add.png";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { takeTeamAchievements } from "../../../service/teamService";
+import {
+  deleteTeamAchievement,
+  takeTeamAchievements,
+} from "../../../service/teamService";
 import { ITeamAchievements } from "../types";
+import TeamAddAchievement from "./TeamAddAchievement/TeamAddAchievement";
 
 export default function TeamAchievments() {
-  const { id } = useParams("id");
+  const [showForm, setShowForm] = useState(false);
+  const { id } = useParams();
   const [activeEdit, setActiveEdit] = useState(false);
   const [data, setData] = useState<ITeamAchievements>();
   const [tempData, setTempData] = useState(data);
@@ -22,11 +27,16 @@ export default function TeamAchievments() {
       achievmentArea.style.overflowY = "hidden";
     }
   };
-  const handleDelete = (key: number) => {
-    setActiveEdit(true);
-    setData((prev) => prev.filter((item) => item.id !== key));
+  const handleDelete = async (channelId) => {
+    try {
+      if (window.confirm("Вы действительно хотите удалить это достижение?")) {
+        await deleteTeamAchievement(channelId);
+        setData((prev) => prev.filter((item) => item.id != channelId));
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
-
   const onSave = () => {
     if (data.some((item) => item.achievementName === "")) {
       setError(true);
@@ -44,12 +54,13 @@ export default function TeamAchievments() {
   };
 
   const handleAddAchievement = () => {
-    setActiveEdit(true);
+    // setActiveEdit(true);
     const newId = data.reduce((maxId, item) => Math.max(maxId, item.id) + 1, 0);
-    setData((prev) => [
-      ...prev,
-      { id: newId, achievementName: "", description: "" },
-    ]);
+    setData((prev) =>
+      prev
+        ? [...prev, { id: newId, achievementName: "", description: "" }]
+        : [{ id: newId, achievementName: "", description: "" }]
+    );
   };
 
   useEffect(() => {
@@ -60,9 +71,15 @@ export default function TeamAchievments() {
     takeResponse();
     setTempData(data);
   }, []);
-  console.log(data);
   return (
     <>
+      {showForm && (
+        <TeamAddAchievement
+          setShowForm={setShowForm}
+          setData={setData}
+          data={data}
+        />
+      )}
       <div
         className={styles.achievmentArea}
         ref={achievmentAreaRef}
@@ -119,7 +136,7 @@ export default function TeamAchievments() {
             </button>
           </div>
         ))}
-        <button className={styles.addBtn} onClick={handleAddAchievement}>
+        <button className={styles.addBtn} onClick={() => setShowForm(true)}>
           <img src={addPng} alt="add" className={styles.addImg} />
         </button>
       </div>

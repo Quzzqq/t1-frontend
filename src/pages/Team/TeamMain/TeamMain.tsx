@@ -33,6 +33,9 @@ export default function TeamMain() {
     setData(tempData);
     setActiveEdit(false);
   };
+
+  const onDelete = async () => {};
+
   useEffect(() => {
     const takeResponse = async () => {
       const response = await takeTeamMain(id);
@@ -65,7 +68,7 @@ export default function TeamMain() {
             <h4 className={styles.membersName}>Участники</h4>
             <div className={styles.memberPeoples}>
               {data &&
-                Object.entries(data?.users).map(([key, people]) => (
+                Object.values(data?.users).map((people) => (
                   <div key={people.id} style={{ background: "none" }}>
                     <p key={people.name} className={styles.name}>
                       {people.teamRole == "OWNER" && (
@@ -82,13 +85,9 @@ export default function TeamMain() {
                         <button
                           className={styles.deleteBtn}
                           onClick={() => {
-                            setActiveEdit(true);
-                            const updatedUsers = Object.entries(data.users)
-                              .filter(([k, p]) => k !== key)
-                              .reduce(
-                                (acc, [k, p]) => ({ ...acc, [k]: p }),
-                                {}
-                              );
+                            const updatedUsers = data.users.filter(
+                              (item) => item.id != people.id
+                            );
                             setData((prev) => ({
                               ...prev,
                               users: updatedUsers,

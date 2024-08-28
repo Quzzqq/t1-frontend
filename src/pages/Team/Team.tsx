@@ -11,10 +11,8 @@ export default function Team() {
   const [choise, setChoise] = useState("main");
   const [name, setName] = useState("");
   // const userId = useSelector((state) => state.auth.data && state.auth.data.id);
-  // const groupId = useParams().id;
-  const userId = 1;
-  const groupId = 1;
-  const [admin, setAdmin] = useState(userId == groupId);
+  const groupId = useParams().id;
+  // const [admin, setAdmin] = useState(userId == groupId);
   useEffect(() => {
     const takeName = async () => {
       const response = await takeNameTeam(groupId);
@@ -22,8 +20,6 @@ export default function Team() {
     };
     takeName();
   }, []);
-  console.log(admin);
-  console.log(name);
   return (
     <>
       <div className={styles.back}>

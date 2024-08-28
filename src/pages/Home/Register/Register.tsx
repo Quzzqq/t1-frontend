@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import styles from "./Register.module.css";
 import { useAppDispatch } from "../../../redux/store";
 import { fetchRegister, selectIsAuth } from "../../../redux/slices/auth";
-import * as Yup from "Yup";
+import * as Yup from "yup";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";

@@ -61,6 +61,7 @@
 
 .memberInArea {
   max-width: 520px;
+  min-width: 520px;
   background: none;
 }
 

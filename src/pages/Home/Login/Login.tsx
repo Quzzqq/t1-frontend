@@ -7,7 +7,7 @@ import {
   fetchRefresh,
   selectIsAuth,
 } from "../../../redux/slices/auth";
-import * as Yup from "Yup";
+import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

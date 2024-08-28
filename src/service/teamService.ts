@@ -43,3 +43,24 @@ export const putTeamAchievement = async (id) => {
     console.log(e);
   }
 };
+
+export const addTeamAchievement = async (teamId, data) => {
+  try {
+    const response = await instance.post(
+      `/api/achievements/team/${teamId}`,
+      data
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteTeamAchievement = async (channelId) => {
+  try {
+    const response = await instance.delete(`/api/achievements/${channelId}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
