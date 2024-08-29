@@ -3,24 +3,32 @@ import styles from "./TeamChannels.module.css";
 import deleteImg from "../../../components/img/delete.png";
 import addImg from "../../../components/img/add.png";
 import {
+  deleteTaskChannel,
   deleteTeamChannel,
+  putTeamChannelsNames,
   takeChannelData,
   takeTeamChannels,
 } from "../../../service/teamService";
 import { useParams } from "react-router-dom";
 import TeamAddChannels from "./TeamAddChannels/TeamAddChannels";
-import { IDataChannel } from "./types";
+import { IDataChannel, INameChannel, ITask } from "./types";
 import { IAdmin } from "../types";
+import TeamAddTask from "./TeamAddTask/TeamAddTask";
+import TeamEditTask from "./TeamEditTask/TeamEditTask";
 
 export default function TeamChannel({ admin }: IAdmin) {
+  const [activeEdit, setActiveEdit] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showFormAddTask, setShowFormAddTask] = useState(false);
+  const [activeFormEditTask, setActiveFormEditTask] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<ITask>();
   const teamId = useParams().id;
   const [dataChannels, setDataChannels] = useState([
-    { id: 0, channelTheme: "" },
+    { id: 0, channelTheme: "", description: "" },
   ]);
 
   const [dataChannelsTasks, setDataChannelsTasks] = useState<IDataChannel>();
-  const [selectedChannelId, setSelectedChannelId] = useState<number>();
+  const [selectedChannel, setSelectedChannel] = useState<INameChannel>();
   const [selectedTypeTask, setSelectedTypeTask] = useState("ALL");
   const channelsAreaRef = useRef(null);
   const tasksAreaRef = useRef(null);
@@ -43,7 +51,7 @@ export default function TeamChannel({ admin }: IAdmin) {
   };
   const handleDelete = async (channelId) => {
     try {
-      if (window.confirm("Вы действительно хотите удалить это достижение?")) {
+      if (window.confirm("Вы действительно хотите удалить этот канал?")) {
         await deleteTeamChannel(channelId);
         setDataChannels((prev) => prev.filter((item) => item.id != channelId));
       }
@@ -55,24 +63,91 @@ export default function TeamChannel({ admin }: IAdmin) {
     const takeChannels = async () => {
       const response = await takeTeamChannels(teamId);
       setDataChannels(response);
-      setSelectedChannelId(response && response[0].id);
+      setSelectedChannel(response && response[0]);
     };
     takeChannels();
   }, []);
   useEffect(() => {
     const takeData = async () => {
-      const response = await takeChannelData(selectedChannelId);
+      const response = await takeChannelData(selectedChannel.id);
       setDataChannelsTasks(response);
     };
     takeData();
-  }, [selectedChannelId]);
-  // console.log(dataChannelsTasks);
+  }, [selectedChannel]);
+  const onSave = async () => {
+    try {
+      await putTeamChannelsNames(selectedChannel);
+      setDataChannels((prev) => {
+        const channelIndex = prev.findIndex(
+          (channel) => channel.id === selectedChannel.id
+        );
+        if (channelIndex !== -1) {
+          return [
+            ...prev.slice(0, channelIndex),
+            { ...selectedChannel },
+            ...prev.slice(channelIndex + 1),
+          ];
+        } else {
+          return [...prev, { ...selectedChannel }];
+        }
+      });
+
+      setActiveEdit(false);
+    } catch (err) {
+      alert("Произошла ошибка");
+      console.log(err);
+    }
+  };
+  useEffect(() => {}, [dataChannels]);
+  const onCancel = () => {
+    setActiveEdit(false);
+    setSelectedChannel(
+      dataChannels.find((data) => data.id === selectedChannel.id)
+    );
+    setError(false);
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    try {
+      if (window.confirm("Вы действительно хотите удалить задачу?")) {
+        await deleteTaskChannel(taskId);
+        setDataChannelsTasks((prev) => {
+          if (prev?.tasks) {
+            return {
+              ...prev,
+              tasks: prev.tasks.filter((item) => item.id !== taskId),
+            };
+          }
+          return prev;
+        });
+      }
+    } catch (err) {
+      alert("Не удалось удалить");
+      console.log(err);
+    }
+  };
+  // console.log(dataChannels);
   return (
     <>
       {showForm && (
         <TeamAddChannels
           setShowForm={setShowForm}
           setDataChannels={setDataChannels}
+        />
+      )}
+      {showFormAddTask && (
+        <TeamAddTask
+          setShowFormAddTask={setShowFormAddTask}
+          channelId={selectedChannel.id}
+          setDataChannelsTasks={setDataChannelsTasks}
+        />
+      )}
+      {activeFormEditTask && (
+        <TeamEditTask
+          setActiveFormEditTask={setActiveFormEditTask}
+          selectedTask={selectedTask}
+          setDataChannelsTasks={setDataChannelsTasks}
+          admin={admin}
         />
       )}
       <div className={styles.all}>
@@ -89,13 +164,11 @@ export default function TeamChannel({ admin }: IAdmin) {
                   className={styles.channelsBtn}
                   value={channel.channelTheme}
                   onClick={() => {
-                    setSelectedChannelId(channel.id);
+                    setSelectedChannel(channel);
                     setSelectedTypeTask("ALL");
                   }}
                   style={
-                    selectedChannelId == channel.id
-                      ? { background: "#9A9A9A" }
-                      : {}
+                    selectedChannel == channel ? { background: "#9A9A9A" } : {}
                   }
                   key={channel.id}
                 >
@@ -121,21 +194,36 @@ export default function TeamChannel({ admin }: IAdmin) {
             </button>
           )}
         </div>
-
         <div className={styles.descriptionArea}>
+          <h3 className={styles.channelsNameH}>Название</h3>
+          <textarea
+            type="text"
+            value={selectedChannel?.channelTheme}
+            className={styles.channelNameInp}
+            readOnly={!admin}
+            onChange={(e) => {
+              selectedChannel &&
+                setSelectedChannel((prev) => ({
+                  ...prev,
+                  channelTheme: e.target.value,
+                }));
+              setActiveEdit(true);
+            }}
+          />
           <h3 className={styles.descriptionName}>Описание</h3>
           <textarea
             type="text"
-            value={dataChannelsTasks?.description}
+            value={selectedChannel?.description}
             className={styles.description}
             readOnly={!admin}
-            onChange={(e) =>
-              dataChannelsTasks &&
-              dataChannelsTasks((prev) => ({
-                ...prev,
-                description: e.target.value,
-              }))
-            }
+            onChange={(e) => {
+              selectedChannel &&
+                setSelectedChannel((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }));
+              setActiveEdit(true);
+            }}
           />
         </div>
         <div className={styles.tasks}>
@@ -198,7 +286,6 @@ export default function TeamChannel({ admin }: IAdmin) {
               {dataChannelsTasks &&
                 Object.values(dataChannelsTasks?.tasks).map((task) => (
                   <>
-                    {console.log(task.status, selectedTypeTask)}
                     {(task.status == selectedTypeTask ||
                       selectedTypeTask == "ALL") && (
                       <div
@@ -206,21 +293,45 @@ export default function TeamChannel({ admin }: IAdmin) {
                         key={task.id}
                         style={
                           task.status == "BACKLOG"
-                            ? { background: "#FF5555" }
+                            ? {
+                                // background: "#FF5555"
+                                background:
+                                  "linear-gradient(to right, #FF5555 70%, #FFFFFF 100%)",
+                              }
                             : task.status == "IN_PROGRESS"
-                            ? { background: "#E9FF61" }
+                            ? {
+                                background:
+                                  "linear-gradient(to right, #E9FF61 70%, #FFFFFF 100%)",
+                              }
                             : task.status == "TESTING"
-                            ? { background: "#93F7C7" }
+                            ? {
+                                background:
+                                  "linear-gradient(to right, #93F7C7 70%, #FFFFFF 100%)",
+                              }
                             : {
-                                background: "#9B93FF",
+                                background:
+                                  "linear-gradient(to right, #9B93FF 70%, #FFFFFF 100%)",
                               }
                         }
                       >
                         {/* {console.log(task.status)} */}
-                        {task.taskName}
+                        <button
+                          onClick={() => {
+                            setActiveFormEditTask(true);
+                            setSelectedTask(task);
+                          }}
+                          className={styles.btnSetActive}
+                          value={task.taskName}
+                        >
+                          <p className={styles.pSetActive}>{task.taskName}</p>
+                        </button>
+
                         <div className={styles.taskP}>{task.status}</div>
                         {admin && (
-                          <button className={styles.deleteBtn}>
+                          <button
+                            className={styles.deleteBtn}
+                            onClick={() => handleDeleteTask(task.id)}
+                          >
                             <img
                               src={deleteImg}
                               alt="delete"
@@ -234,12 +345,28 @@ export default function TeamChannel({ admin }: IAdmin) {
                 ))}
             </div>
             {admin && (
-              <button className={styles.add}>
+              <button
+                className={styles.add}
+                onClick={() => setShowFormAddTask(true)}
+              >
                 <img src={addImg} alt="add" className={styles.addImg} />
               </button>
             )}
           </div>
         </div>
+
+        {activeEdit ? (
+          <div className={styles.editBtns}>
+            <button className={styles.save} onClick={onSave}>
+              Сохранить
+            </button>
+            <button className={styles.cancel} onClick={onCancel}>
+              Отмена
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

@@ -20,13 +20,13 @@ const Home = () => {
   useEffect(() => {
     const takeTeams = async () => {
       const response = await takeRandomTeams();
+      console.log(response);
       setData(response);
     };
     takeTeams();
   }, []);
   const moreTeams = async () => {
     const response = await takeRandomTeams();
-    // console.log(response);
     setData((prev) => [...prev, ...response]);
   };
   return (
@@ -59,7 +59,12 @@ const Home = () => {
           </div>
         </div>
         <div className={styles.filterArea}>
-          <button className={styles.addTeam} onClick={() => setShowForm(true)}>
+          <button
+            className={styles.addTeam}
+            onClick={() => {
+              userId ? setShowForm(true) : alert("Вы не авторизованы");
+            }}
+          >
             Создать команду
           </button>
         </div>

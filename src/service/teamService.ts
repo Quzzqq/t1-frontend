@@ -118,3 +118,40 @@ export const takeIdAdmin = async (teamId) => {
     console.log(e);
   }
 };
+
+export const putTeamChannelsNames = async (data) => {
+  try {
+    await instance.put(`/api/channels/${data.id}`, data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteTaskChannel = async (taskId) => {
+  try {
+    await instance.delete(`/api/tasks/${taskId}`);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addTask = async (channelId, data) => {
+  try {
+    const response = await instance.post(
+      `/api/tasks/channel/${channelId}`,
+      data
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const editTask = async (data) => {
+  try {
+    const response = await instance.put(`/api/tasks/${data.id}`, data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

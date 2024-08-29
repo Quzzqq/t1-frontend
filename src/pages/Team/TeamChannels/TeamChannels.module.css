@@ -3,9 +3,10 @@
   gap: 25px;
   background: none;
   margin-top: 30px;
+  margin-left: 30px;
 }
 .channels {
-  width: 272px;
+  width: 210px;
   min-height: 251px;
   background: none;
   text-align: center;
@@ -86,7 +87,7 @@
 
 .description {
   background: #fff;
-  height: 314px;
+  height: 204px;
   width: 310px;
   font: 300 20px "Montserrat";
   border-radius: 8px;
@@ -152,12 +153,13 @@
   max-height: 190px;
   background: none;
   overflow: auto;
+  max-width: 505px;
 }
 
 .task {
   position: relative;
   height: 34px;
-  width: 462px;
+  width: 452px;
   border-radius: 6px;
   font: 400 13px "Montserrat";
   background: #f5b1b1;
@@ -166,10 +168,26 @@
   align-content: center;
   padding-left: 20px;
   margin-bottom: 15px;
-  /* overflow: auto; */
-  /* padding-top: 20px; */
+  border: 2px solid rgb(208, 199, 199);
 }
 
+.btnSetActive {
+  background: none;
+  border: none;
+}
+.btnSetActive:hover {
+  cursor: pointer;
+}
+
+.pSetActive {
+  font: 400 14px "Montserrat";
+  background: none;
+}
+.pSetActive:hover {
+  font: 400 14px "Montserrat";
+  background: none;
+  text-decoration: underline;
+}
 .taskP {
   position: absolute;
   right: 60px;
@@ -180,4 +198,46 @@
   font: 700 11px "Montserrat";
   text-align: center;
   top: 9px;
+}
+
+.editBtns {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  background: none;
+  border: none;
+  right: 20px;
+  top: 115px;
+}
+
+.save {
+  border-radius: 25px;
+  height: 35px;
+  width: 90px;
+  background: #6fff37;
+  font: 600 14px "Montserrat";
+}
+
+.cancel {
+  border-radius: 25px;
+  height: 35px;
+  width: 90px;
+  background: #fb5858;
+  font: 600 14px "Montserrat";
+}
+
+.channelsNameH {
+  background: none;
+  font: 400 32px "Montserrat";
+  margin-bottom: 20px;
+}
+
+.channelNameInp {
+  background: #fff;
+  height: 27px;
+  width: 310px;
+  font: 300 20px "Montserrat";
+  border-radius: 8px;
+  padding: 5px;
+  resize: none;
 }

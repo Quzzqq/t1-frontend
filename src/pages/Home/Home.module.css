@@ -98,7 +98,7 @@
 .filterArea {
   position: fixed;
   margin-left: 900px;
-  background: #d9d9d9;
+  /* background: #d9d9d9; */
   text-align: center;
   width: 224px;
   max-width: 224px;
@@ -107,14 +107,14 @@
 }
 
 .addTeam {
-  background: #fff;
+  background: #9d9d9d;
   border: none;
   border-radius: 13px;
-  padding: 15px;
+  /* padding: 15px; */
   font: 500 23px "Montserrat";
   height: 73px;
   width: 192px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .link {
