@@ -5,6 +5,7 @@ import deleteImg from "../../../components/img/delete.png";
 import { useEffect, useRef, useState } from "react";
 import {
   addUserInTeam,
+  deleteTeamMember,
   putTeamMainInfo,
   takeTeamMain,
 } from "../../../service/teamService";
@@ -53,6 +54,21 @@ export default function TeamMain({ admin }: IAdmin) {
     }
   };
 
+  const handleDeleteMember = async (userId) => {
+    try {
+      if (window.confirm("Вы действительно хотите удалить пользователя?")) {
+        await deleteTeamMember(id, userId);
+        const updatedUsers = data.users.filter((item) => item.id != userId);
+        setData((prev) => ({
+          ...prev,
+          users: updatedUsers,
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const takeResponse = async () => {
       const response = await takeTeamMain(id);
@@ -60,7 +76,7 @@ export default function TeamMain({ admin }: IAdmin) {
     };
     takeResponse();
     setTempData(data);
-  }, []);
+  }, [id]);
   useEffect(() => {
     setDataForAdd({
       text: "Вступайте в команду!",
@@ -111,15 +127,7 @@ export default function TeamMain({ admin }: IAdmin) {
                         <button
                           style={admin ? {} : { display: "none" }}
                           className={styles.deleteBtn}
-                          onClick={() => {
-                            const updatedUsers = data.users.filter(
-                              (item) => item.id != people.id
-                            );
-                            setData((prev) => ({
-                              ...prev,
-                              users: updatedUsers,
-                            }));
-                          }}
+                          onClick={() => handleDeleteMember(people.id)}
                         >
                           <img
                             src={deleteImg}

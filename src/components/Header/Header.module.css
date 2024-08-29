@@ -27,14 +27,14 @@ header {
   top: 35px;
 }
 
+.findH {
+  font: 500 20px "Montserrat";
+  background: none;
+  margin-bottom: 5px;
+}
+
 .find {
   width: 362px;
-  height: 47px;
-  border: 2px solid;
-  border-radius: 26px;
-  text-align: center;
-  color: #6a6565;
-  font: 500 20px "Montserrat";
 }
 
 .signUp {
@@ -68,7 +68,8 @@ header {
   position: absolute;
   background: none;
   left: 400px;
-  top: 35px;
+  top: 25px;
+  text-align: center;
 }
 
 .findImg {

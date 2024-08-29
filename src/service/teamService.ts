@@ -155,3 +155,14 @@ export const editTask = async (data) => {
     console.log(e);
   }
 };
+
+export const deleteTeamMember = async (teamId, userId) => {
+  try {
+    const response = await instance.delete(
+      `/api/teams/${teamId}/user/${userId}`
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

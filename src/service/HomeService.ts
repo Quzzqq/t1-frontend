@@ -26,3 +26,12 @@ export const checkInvites = async (userId: number) => {
     console.log(err);
   }
 };
+
+export const takeTeamFromFind = async (data) => {
+  try {
+    const response = await instance.get(`/api/teams?prefix=${data}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};

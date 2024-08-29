@@ -25,10 +25,11 @@ export default function Team() {
       setIdAdmin(responseIdAdmin);
     };
     requests();
-  }, []);
+  }, [groupId]);
   useEffect(() => {
     setAdmin(idAdmin === userId);
   }, [idAdmin, userId]);
+  // useEffect(() => {}, [groupId]);
   return (
     <>
       <div className={styles.back}>

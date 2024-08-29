@@ -70,7 +70,7 @@ export default function TeamAchievments({ admin }: IAdmin) {
     };
     takeResponse();
     setTempData(data);
-  }, []);
+  }, [id]);
   return (
     <>
       {showForm && (

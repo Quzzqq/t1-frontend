@@ -7,8 +7,9 @@ import { useAppDispatch } from "../../redux/store";
 import Select from "react-select";
 import star from "../img/star.png";
 import search from "../img/search.png";
-import { checkInvites } from "../../service/HomeService";
+import { checkInvites, takeTeamFromFind } from "../../service/HomeService";
 import DropDownNotifications from "./DropDownNotifications/DropDownNotifications";
+import { IDataTeam } from "./types";
 // import { INotifications } from "./types";
 // import Notifications from "react-notifications-menu";
 
@@ -16,12 +17,22 @@ export default function Header() {
   const navigate = useNavigate();
   const [location, setLocation] = useState<string>(window.location.pathname);
   const [dataInvites, setDataInvites] = useState<INotifications>();
+  const [optionsTeams, setOptionsTeams] = useState<IDataTeam>([]);
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
   const isAuth = useSelector(selectIsAuth);
   const userId = useSelector(
     (state) => state.auth.data && state.auth.data.userId
   );
+  const handleChangeFind = async (newValue) => {
+    try {
+      const response = await takeTeamFromFind(newValue);
+      setOptionsTeams(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const dispatch = useAppDispatch();
   const onLeave = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
@@ -39,7 +50,6 @@ export default function Header() {
     checkCurrentInvites();
   }, [userId]);
   // console.log(dataInvites);
-
   return (
     <header>
       <Link to={"/"} className={styles.starLink}>
@@ -53,28 +63,30 @@ export default function Header() {
         ></img>
       </Link>
       <div className={styles.findBar}>
-        <img
-          src={search}
-          alt="find"
-          className={styles.findImg}
-          style={focus || value != "" ? { display: "none" } : {}}
-        />
-        {/* <Select
+        <h4 className={styles.findH}>Найти команду</h4>
+        <Select
           placeholder="Введите команду"
-          options={optionsVacancies}
-          className={styles.inp}
+          options={
+            optionsTeams &&
+            optionsTeams.map((team) => ({
+              ...team,
+              value: team.teamName,
+              label: team.teamName,
+            }))
+          }
+          className={styles.find}
           value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
+          onChange={(selectedOption) => {
+            console.log(selectedOption);
+            navigate(`/team/${selectedOption.id}`, { replace: true });
           }}
-          onInputChange={(newValue, actionMeta) => {
-            if (actionMeta.action === "input-change") {
-              setValue(newValue);
-            }
+          onInputChange={(newValue) => {
+            setValue(newValue);
+            handleChangeFind(newValue);
           }}
           maxMenuHeight={130}
-        /> */}
-        <input
+        />
+        {/* <input
           placeholder="Введите команду"
           type="text"
           className={styles.find}
@@ -88,7 +100,7 @@ export default function Header() {
           onBlur={() => {
             setFocus(false);
           }}
-        />
+        /> */}
       </div>
 
       {isAuth || localStorage.getItem("token") ? (

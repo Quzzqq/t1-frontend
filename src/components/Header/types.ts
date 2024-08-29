@@ -27,3 +27,15 @@ export interface INotifications {
     };
   };
 }
+
+export interface IDataTeam{
+  id: number,
+  teamName: string,
+  description: string,
+  project: {
+    id: number,
+    projectName: string,
+    projectLink: string,
+    description: string,
+  },
+},

@@ -63,10 +63,25 @@ export default function TeamChannel({ admin }: IAdmin) {
     const takeChannels = async () => {
       const response = await takeTeamChannels(teamId);
       setDataChannels(response);
-      setSelectedChannel(response && response[0]);
+      setSelectedChannel(
+        response
+          ? response[0]
+          : {
+              description: "",
+              tasks: [
+                {
+                  id: 0,
+                  taskName: "",
+                  description: "",
+                  status: "",
+                  userId: "",
+                },
+              ],
+            }
+      );
     };
     takeChannels();
-  }, []);
+  }, [teamId]);
   useEffect(() => {
     const takeData = async () => {
       const response = await takeChannelData(selectedChannel.id);
@@ -126,7 +141,8 @@ export default function TeamChannel({ admin }: IAdmin) {
       console.log(err);
     }
   };
-  // console.log(dataChannels);
+
+  // console.log(selectedChannel);
   return (
     <>
       {showForm && (
@@ -196,6 +212,7 @@ export default function TeamChannel({ admin }: IAdmin) {
         </div>
         <div className={styles.descriptionArea}>
           <h3 className={styles.channelsNameH}>Название</h3>
+          {/* {console.log(selectedChannel)} */}
           <textarea
             type="text"
             value={selectedChannel?.channelTheme}
