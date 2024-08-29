@@ -30,6 +30,8 @@
   background: #f1f1f1;
   height: 25px;
   margin-top: 20px;
+  border-radius: 15px;
+
   margin-bottom: 10px;
 }
 
@@ -110,6 +112,23 @@
   background: #fff;
 }
 
+.taskArea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.taskArea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  height: 25px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+}
+
+.taskArea::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
 .tasksHeader {
   display: flex;
   gap: 10px;
@@ -130,8 +149,9 @@
 }
 
 .taskArea {
-  max-height: 500px;
+  max-height: 190px;
   background: none;
+  overflow: auto;
 }
 
 .task {
@@ -145,6 +165,8 @@
   text-align: start;
   align-content: center;
   padding-left: 20px;
+  margin-bottom: 15px;
+  /* overflow: auto; */
   /* padding-top: 20px; */
 }
 

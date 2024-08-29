@@ -19,3 +19,14 @@ export interface ITeamAchievements {
   achievementName: string;
   description: string;
 }
+
+export interface IDataForAdd {
+  text: string;
+  userSenderId: number;
+  userReceiverMail: string;
+  team: number;
+}
+
+export interface IAdmin {
+  admin: boolean;
+}

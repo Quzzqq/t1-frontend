@@ -1,19 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { logout, selectIsAuth } from "../../redux/slices/auth";
 import { useAppDispatch } from "../../redux/store";
 import star from "../img/star.png";
 import search from "../img/search.png";
+import { checkInvites } from "../../service/HomeService";
+import DropDownNotifications from "./DropDownNotifications/DropDownNotifications";
+// import { INotifications } from "./types";
+// import Notifications from "react-notifications-menu";
 
 export default function Header() {
   const navigate = useNavigate();
   const [location, setLocation] = useState<string>(window.location.pathname);
+  const [dataInvites, setDataInvites] = useState<INotifications>();
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState("");
   const isAuth = useSelector(selectIsAuth);
-  const id = useSelector((state) => state.auth.data && state.auth.data.userId);
+  const userId = useSelector(
+    (state) => state.auth.data && state.auth.data.userId
+  );
   const dispatch = useAppDispatch();
   const onLeave = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
@@ -23,6 +30,14 @@ export default function Header() {
       setLocation("");
     }
   };
+  useEffect(() => {
+    const checkCurrentInvites = async () => {
+      const response = await checkInvites(userId);
+      setDataInvites(response);
+    };
+    checkCurrentInvites();
+  }, [userId]);
+  // console.log(dataInvites);
 
   return (
     <header>
@@ -59,15 +74,19 @@ export default function Header() {
           }}
         />
       </div>
+
       {isAuth || localStorage.getItem("token") ? (
         <div className={styles.signInBtns}>
+          {/* <Notifications /> */}
+          {/* <DropDownNotifications dataInvites={dataInvites} /> */}
+
           <button className={styles.logout} onClick={onLeave}>
             Выйти
           </button>
           <button
             className={styles.profile}
             onClick={() => {
-              navigate(`/user/${id}`);
+              navigate(`/user/${userId}`);
             }}
           >
             Профиль

@@ -17,3 +17,12 @@ export const createTeam = async (userId, data) => {
     console.log(err);
   }
 };
+
+export const checkInvites = async (userId: number) => {
+  try {
+    const response = await instance.get(`/api/invitations/user/${userId}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};

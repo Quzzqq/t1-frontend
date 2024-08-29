@@ -7,10 +7,10 @@ import {
   deleteTeamAchievement,
   takeTeamAchievements,
 } from "../../../service/teamService";
-import { ITeamAchievements } from "../types";
+import { IAdmin, ITeamAchievements } from "../types";
 import TeamAddAchievement from "./TeamAddAchievement/TeamAddAchievement";
 
-export default function TeamAchievments() {
+export default function TeamAchievments({ admin }: IAdmin) {
   const [showForm, setShowForm] = useState(false);
   const { id } = useParams();
   const [activeEdit, setActiveEdit] = useState(false);
@@ -90,6 +90,7 @@ export default function TeamAchievments() {
             <div className={styles.achievementName}>
               <h3 className={styles.achievementNameHeader}>Название</h3>
               <input
+                readOnly={!admin}
                 type="text"
                 placeholder="Введите название"
                 className={styles.achievementNameInp}
@@ -112,6 +113,7 @@ export default function TeamAchievments() {
             <div className={styles.achievementDescription}>
               <h3 className={styles.achievementDescriptionHeader}>Описание</h3>
               <input
+                readOnly={!admin}
                 type="text"
                 placeholder="Введите описание"
                 className={styles.achievementDescriptionInp}
@@ -128,17 +130,25 @@ export default function TeamAchievments() {
                 }}
               ></input>
             </div>
-            <button
-              className={styles.deleteBtn}
-              onClick={() => handleDelete(achievement.id)}
-            >
-              <img src={deletePng} alt="delete" className={styles.deleteImg} />
-            </button>
+            {admin && (
+              <button
+                className={styles.deleteBtn}
+                onClick={() => handleDelete(achievement.id)}
+              >
+                <img
+                  src={deletePng}
+                  alt="delete"
+                  className={styles.deleteImg}
+                />
+              </button>
+            )}
           </div>
         ))}
-        <button className={styles.addBtn} onClick={() => setShowForm(true)}>
-          <img src={addPng} alt="add" className={styles.addImg} />
-        </button>
+        {admin && (
+          <button className={styles.addBtn} onClick={() => setShowForm(true)}>
+            <img src={addPng} alt="add" className={styles.addImg} />
+          </button>
+        )}
       </div>
       {activeEdit ? (
         <div className={styles.editBtns}>

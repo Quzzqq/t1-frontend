@@ -3,18 +3,27 @@ import ownerStar from "../../../components/img/ownerStar.png";
 import add from "../../../components/img/add.png";
 import deleteImg from "../../../components/img/delete.png";
 import { useEffect, useRef, useState } from "react";
-import { putTeamMainInfo, takeTeamMain } from "../../../service/teamService";
+import {
+  addUserInTeam,
+  putTeamMainInfo,
+  takeTeamMain,
+} from "../../../service/teamService";
 import { useParams } from "react-router-dom";
-import { ITeamMain } from "../types";
+import { IAdmin, IDataForAdd, ITeamMain } from "../types";
+import { useSelector } from "react-redux";
 
-export default function TeamMain() {
+export default function TeamMain({ admin }: IAdmin) {
   const { id } = useParams("id");
+  const userId = useSelector((state) =>
+    state.auth.data ? state.auth.data.userId : null
+  );
   const [choise, setChoise] = useState("main");
   const [data, setData] = useState<ITeamMain>();
+  const [addEmail, setAddEmail] = useState("");
   const [tempData, setTempData] = useState();
   const [activeEdit, setActiveEdit] = useState(false);
   const membersAreaRef = useRef(null);
-
+  const [dataForAdd, setDataForAdd] = useState<IDataForAdd>({});
   const handleScroll = () => {
     const membersArea = membersAreaRef.current;
     if (membersArea.scrollHeight > membersArea.clientHeight) {
@@ -34,7 +43,15 @@ export default function TeamMain() {
     setActiveEdit(false);
   };
 
-  const onDelete = async () => {};
+  const addUser = async () => {
+    try {
+      await addUserInTeam(dataForAdd);
+      alert("Заявка отправлена!");
+    } catch (err) {
+      console.log(err);
+      alert("Неверная почта");
+    }
+  };
 
   useEffect(() => {
     const takeResponse = async () => {
@@ -44,6 +61,14 @@ export default function TeamMain() {
     takeResponse();
     setTempData(data);
   }, []);
+  useEffect(() => {
+    setDataForAdd({
+      text: "Вступайте в команду!",
+      userSenderId: userId,
+      userReceiverMail: "",
+      team: id,
+    });
+  }, [userId]);
   return (
     <div className={styles.all}>
       <div className={styles.descriptionArea}>
@@ -52,6 +77,7 @@ export default function TeamMain() {
           className={styles.descriptionText}
           name="descriptionText"
           value={data?.description}
+          readOnly={!admin}
           onChange={(e) => {
             setActiveEdit(true);
             setData((prev) => ({ ...prev, description: e.target.value }));
@@ -83,6 +109,7 @@ export default function TeamMain() {
                       {people.name}
                       {people.teamRole !== "OWNER" && (
                         <button
+                          style={admin ? {} : { display: "none" }}
                           className={styles.deleteBtn}
                           onClick={() => {
                             const updatedUsers = data.users.filter(
@@ -108,17 +135,28 @@ export default function TeamMain() {
             <div className={styles.roll}></div>
           </div>
         </div>
-        <div className={styles.addArea}>
-          <h5 className={styles.addName}>Добавить участника</h5>
-          <input
-            type="email"
-            className={styles.addInp}
-            placeholder="Введите e-mail"
-          />
-          <button className={styles.addBtn}>
-            <img src={add} alt="add" className={styles.addImg} />
-          </button>
-        </div>
+        {admin && (
+          <div className={styles.addArea}>
+            <h5 className={styles.addName}>Добавить участника</h5>
+            <input
+              type="email"
+              className={styles.addInp}
+              placeholder="Введите e-mail"
+              value={dataForAdd.userReceiverMail}
+              onChange={(e) =>
+                setDataForAdd((prev) => ({
+                  ...prev,
+                  userReceiverMail: e.target.value,
+                }))
+              }
+            />
+
+            <button className={styles.addBtn} onClick={addUser}>
+              <img src={add} alt="add" className={styles.addImg} />
+            </button>
+          </div>
+        )}
+
         {activeEdit ? (
           <div className={styles.editBtns}>
             <button className={styles.save} onClick={onSave}>
