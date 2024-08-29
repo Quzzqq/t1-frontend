@@ -4,3 +4,53 @@
   background: #fff;
   font: 500 14px "Montserrat";
 }
+
+.alert {
+  position: fixed;
+  font: 600 15px "Montserrat";
+  /* background: none; */
+  height: 40px;
+  width: 80%;
+  top: 10px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 100;
+}
+
+.MuiAlert-message {
+  font: 600 20px "Montserrat";
+  background: none;
+}
+
+.MuiAlert-colorError {
+  background: none;
+}
+
+.MuiAlert-icon {
+  background: none;
+}
+
+.MuiAlert-outlined {
+  background: none;
+}
+
+.MuiSvgIcon-root {
+  background: none;
+}
+
+.MuiAlert-action {
+  background: none;
+}
+
+.MuiButtonBase-root {
+  background: none;
+}
+
+.MuiAlert-closeIcon {
+  background: none;
+}
+.MuiAlert-closeIcon:hover {
+  background: none;
+}

@@ -11,12 +11,15 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 const SignInSchema = Yup.object().shape({
   username: Yup.string().email("Неверный email").required("Обязательное поле"),
   password: Yup.string().required("Обязательное поле"),
 });
+
 export default function Login() {
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const [showErrors, setShowErrors] = useState(false);
@@ -41,6 +44,7 @@ export default function Login() {
         console.log(data);
         localStorage.setItem("token", data.payload.accessToken);
       } catch (err) {
+        setShowErrorAlert(true);
         console.log(err);
       }
     },
@@ -55,8 +59,23 @@ export default function Login() {
     console.log(data);
   };
 
+  useEffect(() => {
+    let timeoutId;
+    if (showErrorAlert) {
+      timeoutId = setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000); // Скрываем Alert через 3 секунды
+    }
+    return () => clearTimeout(timeoutId);
+  }, [showErrorAlert]);
+
   return (
     <>
+      {showErrorAlert && (
+        <Alert severity="error" className="alert">
+          Неверный логин или пароль
+        </Alert>
+      )}
       <div className={styles.block}>
         <form onSubmit={formik.handleSubmit} className={styles.form}>
           <div className={styles.back}>

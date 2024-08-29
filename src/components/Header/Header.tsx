@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { logout, selectIsAuth } from "../../redux/slices/auth";
 import { useAppDispatch } from "../../redux/store";
+import Select from "react-select";
 import star from "../img/star.png";
 import search from "../img/search.png";
 import { checkInvites } from "../../service/HomeService";
@@ -58,6 +59,21 @@ export default function Header() {
           className={styles.findImg}
           style={focus || value != "" ? { display: "none" } : {}}
         />
+        {/* <Select
+          placeholder="Введите команду"
+          options={optionsVacancies}
+          className={styles.inp}
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          onInputChange={(newValue, actionMeta) => {
+            if (actionMeta.action === "input-change") {
+              setValue(newValue);
+            }
+          }}
+          maxMenuHeight={130}
+        /> */}
         <input
           placeholder="Введите команду"
           type="text"

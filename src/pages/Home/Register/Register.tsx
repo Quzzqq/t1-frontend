@@ -3,9 +3,10 @@ import styles from "./Register.module.css";
 import { useAppDispatch } from "../../../redux/store";
 import { fetchRegister, selectIsAuth } from "../../../redux/slices/auth";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string().email("Неверный email").required("Обязательное поле"),
@@ -25,6 +26,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 export default function Register() {
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const isAuth = useSelector(selectIsAuth);
   const [showErrors, setShowErrors] = useState(false);
   const dispatch = useAppDispatch();
@@ -43,6 +45,7 @@ export default function Register() {
         const data = await dispatch(fetchRegister(values));
         localStorage.setItem("token", data.payload.accessToken);
       } catch (err) {
+        setShowErrorAlert(true);
         console.log(err);
       }
     },
@@ -51,8 +54,22 @@ export default function Register() {
   if (isAuth) {
     return <Navigate to={"/"} />;
   }
+  useEffect(() => {
+    let timeoutId;
+    if (showErrorAlert) {
+      timeoutId = setTimeout(() => {
+        setShowErrorAlert(false);
+      }, 2000); // Скрываем Alert через 3 секунды
+    }
+    return () => clearTimeout(timeoutId);
+  }, [showErrorAlert]);
   return (
     <>
+      {showErrorAlert && (
+        <Alert severity="error" className="alert">
+          Пользователь с такой почтой уже зарегистрирован
+        </Alert>
+      )}
       <div className={styles.block}>
         <form onSubmit={formik.handleSubmit} className={styles.form}>
           <div className={styles.back}>
