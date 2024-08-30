@@ -47,9 +47,9 @@
 .infoAbout {
   position: absolute;
   background: none;
-  bottom: 54px;
+  bottom: 140px;
   left: 45px;
-  height: 314px;
+  /* height: 314px; */
   width: 440px;
   text-align: center;
 }
@@ -60,7 +60,29 @@
 
 .areaAbout {
   width: 440px;
-  height: 285px;
+  height: 160px;
+  border-radius: 18px;
+  padding: 15px;
+  font: 300 22px "Montserrat";
+  resize: none;
+}
+
+.infoNumber {
+  position: absolute;
+  background: none;
+  bottom: 10px;
+  left: 45px;
+  width: 440px;
+  text-align: center;
+}
+.headerNumber {
+  background: none;
+  font: bold 24px "Montserrat";
+}
+
+.areaNumber {
+  width: 440px;
+  height: 30px;
   border-radius: 18px;
   padding: 15px;
   font: 300 22px "Montserrat";

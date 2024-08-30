@@ -22,7 +22,7 @@
   font: 700 48px "Montserrat";
   background: none;
   top: 25px;
-  left: 60px;
+  left: 100px;
 }
 
 .btns {
@@ -30,7 +30,7 @@
   justify-content: end;
   column-gap: 40px;
   background: none;
-  margin-right: 95px;
+  margin-right: 35px;
   /* margin-top: 25px; */
 }
 
@@ -40,4 +40,20 @@
   border-radius: 14px;
   font: 200 24px "Montserrat";
   margin-top: 30px;
+}
+
+.discordBtn {
+  position: absolute;
+  background: none;
+  height: 60px;
+  width: 60px;
+  left: 20px;
+  top: 25px;
+  border: none;
+}
+
+.discordPng {
+  background: none;
+  height: 60px;
+  width: 60px;
 }

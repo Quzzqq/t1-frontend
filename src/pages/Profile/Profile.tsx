@@ -23,6 +23,7 @@ const AddInfo = ({ header, text, name, onChange, readOnly }: IAddInfo) => {
 };
 
 export default function Profile() {
+  const [phone, setPhone] = useState("");
   const navigate = useNavigate();
   const [data, setData] = useState<IData>();
   const [tempData, setTempData] = useState<IData>();
@@ -48,7 +49,12 @@ export default function Profile() {
     setActiveEdit(true);
     const name = e.target.name;
     const value = e.target.value;
-    setData((prev) => ({ ...prev, [name]: value }));
+    if (name == "phone") {
+      const newPhone = e.target.value.replace(/[^0-9+]/g, "");
+      setData((prev) => ({ ...prev, [name]: newPhone }));
+    } else {
+      setData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const onSave = async () => {
@@ -97,6 +103,18 @@ export default function Profile() {
               readOnly={readOnly}
             />
           </div>
+        </div>
+        <div className={styles.infoNumber}>
+          <h4 className={styles.headerNumber}>Номер телефона</h4>
+          <textarea
+            name="phone"
+            type="number"
+            className={styles.areaNumber}
+            value={data?.phone}
+            onChange={onChange}
+            readOnly={readOnly}
+            maxLength={12}
+          />
         </div>
         <div className={styles.infoAbout}>
           <h4 className={styles.headerAbout}>О себе</h4>

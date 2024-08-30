@@ -30,3 +30,29 @@ export interface IDataForAdd {
 export interface IAdmin {
   admin: boolean;
 }
+
+export interface IDiscordData {
+  discordLink: string;
+  discordGuildId: string;
+}
+
+export interface ISpecializationos {
+  specializationId: number;
+  specializationName: string;
+}
+
+export interface ICompetence {
+  competencyName: string;
+}
+
+export interface IFindData {
+  specializationName: string;
+  competency: [
+    {
+      id: number;
+      competencyName: string;
+      theoreticalExperience: number;
+      practicalExperience: number;
+    }
+  ];
+}

@@ -8,6 +8,7 @@ export interface IData {
   workExperience: string;
   skills: string;
   about: string;
+  phone: string;
 }
 
 export interface IAddInfo {

@@ -3,6 +3,7 @@ import styles from "./DropDownNotifications.module.css";
 import DropdownMenu from "react-dropdown-menu";
 import { INotifications } from "../types";
 
+
 const DropDownNotifications: React.FC<{ dataInvites: INotifications }> = ({
   dataInvites,
 }) => {

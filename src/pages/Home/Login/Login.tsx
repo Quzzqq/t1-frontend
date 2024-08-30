@@ -64,7 +64,7 @@ export default function Login() {
     if (showErrorAlert) {
       timeoutId = setTimeout(() => {
         setShowErrorAlert(false);
-      }, 2000); // Скрываем Alert через 3 секунды
+      }, 3000); // Скрываем Alert через 3 секунды
     }
     return () => clearTimeout(timeoutId);
   }, [showErrorAlert]);
@@ -107,7 +107,7 @@ export default function Login() {
               placeholder="Введите пароль"
               className={styles.inp}
               name="password"
-              type="text"
+              type="password"
               onChange={formik.handleChange}
               value={formik.values.password}
             ></input>

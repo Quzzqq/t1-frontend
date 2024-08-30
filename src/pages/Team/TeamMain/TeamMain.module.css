@@ -59,6 +59,9 @@
   border-radius: 10px;
 }
 
+.peopleDiv:hover {
+  cursor: pointer;
+}
 .memberInArea {
   max-width: 520px;
   min-width: 520px;
@@ -92,6 +95,9 @@
 
 .ownerImg {
   background: none;
+}
+.ownerImg:hover {
+  cursor: pointer;
 }
 
 .deleteBtn {
@@ -179,4 +185,30 @@
   width: 90px;
   background: #fb5858;
   font: 600 14px "Montserrat";
+}
+
+.deleteTeam {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  background: none;
+  border: none;
+  font: 500 15px "Montserrat";
+  color: #870101;
+}
+
+.deleteTeam:hover {
+  cursor: pointer;
+}
+
+.findPeople {
+  background: none;
+  border: none;
+  font: 500 16px "Montserrat";
+  color: #ff3838;
+  text-decoration: underline;
+}
+
+.findPeople:hover {
+  cursor: pointer;
 }

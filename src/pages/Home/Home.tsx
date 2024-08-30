@@ -13,8 +13,6 @@ const Home = () => {
   const userId = useSelector(
     (state) => state.auth.data && state.auth.data.userId
   );
-  // const dispatch = useAppDispatch();
-  // console.log(id);
   const [data, setData] = useState<ITeams>([]);
   const [showForm, setShowForm] = useState(false);
   useEffect(() => {
@@ -41,7 +39,7 @@ const Home = () => {
     if (showErrorAlert) {
       timeoutId = setTimeout(() => {
         setShowErrorAlert(false);
-      }, 2000); // Скрываем Alert через 3 секунды
+      }, 3000); // Скрываем Alert через 3 секунды
     }
     return () => clearTimeout(timeoutId);
   }, [showErrorAlert]);
@@ -79,10 +77,7 @@ const Home = () => {
             Создать команду
           </button>
           {showErrorAlert && (
-            <Alert
-              severity="error"
-              className="alert"
-            >
+            <Alert severity="error" className="alert">
               Вы не авторизированы
             </Alert>
           )}

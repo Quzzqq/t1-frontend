@@ -1,12 +1,8 @@
 import instance from "../axios/axios";
 
 export const takeNameTeam = async (id) => {
-  try {
-    const response = await instance.get(`/api/teams/${id}/name`);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-  }
+  const response = await instance.get(`/api/teams/${id}/name`);
+  return response.data;
 };
 
 export const takeTeamMain = async (id) => {
@@ -161,6 +157,53 @@ export const deleteTeamMember = async (teamId, userId) => {
     const response = await instance.delete(
       `/api/teams/${teamId}/user/${userId}`
     );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const takeMyTeams = async (userId) => {
+  try {
+    const response = await instance.get(`/api/teams/user/${userId}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const patchDiscordData = async (teamId, data) => {
+  try {
+    const response = await instance.patch(`/api/teams/${teamId}/discord`, data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const takeDiscordData = async (teamId) => {
+  try {
+    const response = await instance.get(`/api/teams/${teamId}/discord`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const checkMember = async (teamId, userId) => {
+  try {
+    const response = await instance.get(
+      `/api/teams/${teamId}/user/${userId}/check`
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteTeam = async (teamId) => {
+  try {
+    const response = await instance.delete(`/api/teams/${teamId}`);
     return response.data;
   } catch (e) {
     console.log(e);

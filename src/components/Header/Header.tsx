@@ -6,20 +6,34 @@ import { logout, selectIsAuth } from "../../redux/slices/auth";
 import { useAppDispatch } from "../../redux/store";
 import Select from "react-select";
 import star from "../img/star.png";
-import search from "../img/search.png";
-import { checkInvites, takeTeamFromFind } from "../../service/HomeService";
-import DropDownNotifications from "./DropDownNotifications/DropDownNotifications";
-import { IDataTeam } from "./types";
-// import { INotifications } from "./types";
-// import Notifications from "react-notifications-menu";
+import {
+  acceptInvite,
+  checkInvites,
+  declineInvite,
+  takeTeamFromFind,
+} from "../../service/HomeService";
+import { IDataTeam, IMyTeaM, INotifications } from "./types";
+import { takeMyTeams } from "../../service/teamService";
+import { Dropdown } from "@mui/base/Dropdown";
+import { MenuButton } from "@mui/base/MenuButton";
+import { Menu } from "@mui/base/Menu";
+import { MenuItem } from "@mui/base/MenuItem";
+import BellWithAlert from "../../components/img/BellWithAlert.png";
+import BellWithoutAlert from "../../components/img/BellWithoutAlert.png";
+import instance from "../../axios/axios";
+import { error } from "console";
 
 export default function Header() {
   const navigate = useNavigate();
   const [location, setLocation] = useState<string>(window.location.pathname);
-  const [dataInvites, setDataInvites] = useState<INotifications>();
+  const [dataInvites, setDataInvites] = useState<INotifications[]>();
   const [optionsTeams, setOptionsTeams] = useState<IDataTeam>([]);
   const [focus, setFocus] = useState(false);
+  const [openNotification, setOpenNotification] = useState(false);
   const [value, setValue] = useState("");
+  const [valueMyTeams, setValueMyTeams] = useState("");
+  const [listMyTeams, setListMyTeams] = useState<IMyTeaM>();
+  const [startTimeout, setStartTimeout] = useState(false);
   const isAuth = useSelector(selectIsAuth);
   const userId = useSelector(
     (state) => state.auth.data && state.auth.data.userId
@@ -47,9 +61,35 @@ export default function Header() {
       const response = await checkInvites(userId);
       setDataInvites(response);
     };
+    const takeTeams = async () => {
+      const response = await takeMyTeams(userId);
+      setListMyTeams(response);
+    };
+
     checkCurrentInvites();
-  }, [userId]);
-  // console.log(dataInvites);
+    takeTeams();
+  }, [userId, openNotification]);
+
+  const handleAccept = async (team: INotifications) => {
+    try {
+      setOpenNotification(false);
+      await acceptInvite(team.id);
+      setDataInvites((prev) => prev?.filter((item) => item !== team));
+    } catch (err) {
+      alert("Произошла ошибка");
+      console.log(err);
+    }
+  };
+  const handleDecline = async (team: INotifications) => {
+    try {
+      setOpenNotification(false);
+      await declineInvite(team.id);
+      setDataInvites((prev) => prev?.filter((item) => item !== team));
+    } catch (err) {
+      alert("Произошла ошибка");
+      console.log(err);
+    }
+  };
   return (
     <header>
       <Link to={"/"} className={styles.starLink}>
@@ -86,27 +126,85 @@ export default function Header() {
           }}
           maxMenuHeight={130}
         />
-        {/* <input
-          placeholder="Введите команду"
-          type="text"
-          className={styles.find}
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
-          onFocus={() => {
-            setFocus(true);
-          }}
-          onBlur={() => {
-            setFocus(false);
-          }}
-        /> */}
       </div>
 
       {isAuth || localStorage.getItem("token") ? (
         <div className={styles.signInBtns}>
-          {/* <Notifications /> */}
-          {/* <DropDownNotifications dataInvites={dataInvites} /> */}
+          <div className={styles.findBarMyTeams}>
+            <h4 className={styles.findHMyTeams}>Мои команды</h4>
+            <Select
+              placeholder="Введите команду"
+              options={
+                listMyTeams &&
+                listMyTeams.teams.map((team) => ({
+                  ...team,
+                  value: team.teamName,
+                  label: team.teamName,
+                }))
+              }
+              className={styles.findMyTeams}
+              value={valueMyTeams}
+              onChange={(selectedOption) => {
+                navigate(`/team/${selectedOption.id}`, { replace: true });
+              }}
+              onInputChange={(newValue) => {
+                setValueMyTeams(newValue);
+              }}
+              maxMenuHeight={130}
+            />
+          </div>
+          <div
+            className={styles.notificationAreaFull}
+            onClick={() => setOpenNotification((prev) => !prev)}
+          >
+            <div className={styles.invitesBtn}>
+              <img
+                src={dataInvites ? BellWithAlert : BellWithoutAlert}
+                alt="notification"
+                className={styles.notificatonsImg}
+              />
+            </div>
+            <div
+              className={styles.notificationArea}
+              style={openNotification ? {} : { display: "none" }}
+            >
+              {dataInvites ? (
+                dataInvites.map((team: INotifications) => (
+                  <div className={styles.notification}>
+                    <h4 className={styles.notificationH}>
+                      Вас пригласили в команду!
+                    </h4>
+                    <Link
+                      to={`/team/${team.team.id}`}
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      <p className={styles.notificationP}>
+                        {team.team.teamName}
+                      </p>
+                    </Link>
+                    <div className={styles.btnsNotification}>
+                      <button
+                        className={styles.confirmInvite}
+                        onClick={() => handleAccept(team)}
+                      >
+                        Принять
+                      </button>
+                      <button
+                        className={styles.cancelInvite}
+                        onClick={() => handleDecline(team)}
+                      >
+                        Отказаться
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.notification}>
+                  <h4 className={styles.notificationH}>Нет приглашений</h4>
+                </div>
+              )}
+            </div>
+          </div>
 
           <button className={styles.logout} onClick={onLeave}>
             Выйти

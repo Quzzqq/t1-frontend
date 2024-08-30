@@ -39,3 +39,21 @@ export interface IDataTeam{
     description: string,
   },
 },
+
+export interface IMyTeaM{
+  userId: number,
+  teams: [
+    {
+      id: number,
+      teamName: string,
+      description: string,
+      discordLink: string,
+      project: {
+        id: number,
+        projectName: string,
+        projectLink: string,
+        description: string,
+      }
+    }
+  ]
+}
