@@ -33,8 +33,8 @@ export default function Login() {
 
   const formik = useFormik({
     initialValues: {
-      username: "ivanov@mail.ru",
-      password: "admin",
+      username: "",
+      password: "",
     },
     validationSchema: SignInSchema,
     onSubmit: async (values) => {
