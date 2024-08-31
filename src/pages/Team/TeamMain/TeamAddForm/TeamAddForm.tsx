@@ -4,6 +4,11 @@ import styles from "./TeamAddForm.module.css";
 import ReactSelect from "react-select";
 import { valueKnowledgeOptions } from "../options";
 import { ICompetence, IFindData, ISpecializationos } from "../../types";
+import {
+  takeCompetency,
+  takeSpecialization,
+  takeSuitableMember,
+} from "../../../../service/teamService";
 
 const opt = [
   { value: "fas", label: "fas" },
@@ -29,14 +34,6 @@ export default function TeamAddForm({ setActiveForm }) {
     competency: [],
   });
   const areaRef = useRef(null);
-  //   const handleScroll = () => {
-  //     const area = areaRef.current;
-  //     if (area.scrollHeight > area.clientHeight) {
-  //       area.style.overflowY = "scroll";
-  //     } else {
-  //       area.style.overflowY = "hidden";
-  //     }
-  //   };
 
   const handleAddCompetency = () => {
     setNewData((prev) => ({
@@ -46,19 +43,21 @@ export default function TeamAddForm({ setActiveForm }) {
         {
           id: newData.competency.length,
           competencyName: "",
-          theoreticalExperience: null,
-          practicalExperience: null,
+          teoryLevel: null,
+          practicalLevel: null,
         },
       ],
     }));
   };
+
   const onSave = async () => {
     try {
-      //   await patchDiscordData(teamId, newDiscordData);
-      //   setDiscordData(newDiscordData);
+      const response = await takeSuitableMember(newData);
       setActiveForm(false);
       alert(
-        "Данный пользователь не зарегистрирован, Почта, чтобы связаться с ним: flockWreb@gmail.com"
+        response
+          ? `Все подходящие пользователи: ${response}`
+          : "Нет подходищих кандидатов!"
       );
     } catch (e) {
       console.log(e);
@@ -76,17 +75,33 @@ export default function TeamAddForm({ setActiveForm }) {
         {
           id: newData.competency.length,
           competencyName: "",
-          theoreticalExperience: null,
-          practicalExperience: null,
+          teoryLevel: null,
+          practicalLevel: null,
         },
       ],
     }));
+    const response = await takeCompetency(value);
+    setDataCompetence(response);
   };
 
   useEffect(() => {
+    const takeSpec = async () => {
+      const response = await takeSpecialization();
+      setDataSpecializations(response);
+    };
+    takeSpec();
+  }, []);
+
+  // const takeComp = async () => {
+  //   console.log(newData.specializationName);
+  //   const response = await takeCompetency(newData.specializationName);
+  //   setDataSpecializations(response);
+  // };
+
+  useEffect(() => {
     if (
-      newData.competency.at(-1)?.theoreticalExperience !== null &&
-      newData.competency.at(-1)?.practicalExperience !== null &&
+      newData.competency.at(-1)?.teoryLevel !== null &&
+      newData.competency.at(-1)?.practicalLevel !== null &&
       newData.competency.at(-1)?.competencyName !== null &&
       newData.specializationName
     ) {
@@ -104,7 +119,7 @@ export default function TeamAddForm({ setActiveForm }) {
       }
     }
   }, [newData.competency]);
-  console.log(newData);
+  // console.log(newData);
   return (
     <div className={styles.background}>
       {/* <button onClick={handleAddCompetency}>Add Competency</button> */}
@@ -121,9 +136,10 @@ export default function TeamAddForm({ setActiveForm }) {
             isSearchable={false}
             className={styles.findSpecialization}
             isDisabled={newData.specializationName == "" ? false : true}
-            onChange={(selectedOpt) =>
-              handleGiveSpecialization(selectedOpt?.value)
-            }
+            onChange={(selectedOpt) => {
+              handleGiveSpecialization(selectedOpt?.value);
+              // takeComp();
+            }}
             maxMenuHeight={130}
           />
         </div>
@@ -181,7 +197,7 @@ export default function TeamAddForm({ setActiveForm }) {
                           (item) => item.id === data.id
                         );
                         if (index !== -1) {
-                          updatedCompetency[index].theoreticalExperience =
+                          updatedCompetency[index].teoryLevel =
                             selectedOpt.value;
                         }
                         return { ...prev, competency: updatedCompetency };
@@ -206,7 +222,7 @@ export default function TeamAddForm({ setActiveForm }) {
                           (item) => item.id === data.id
                         );
                         if (index !== -1) {
-                          updatedCompetency[index].practicalExperience =
+                          updatedCompetency[index].practicalLevel =
                             selectedOpt.value;
                         }
                         return { ...prev, competency: updatedCompetency };

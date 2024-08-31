@@ -51,8 +51,8 @@ export interface IFindData {
     {
       id: number;
       competencyName: string;
-      theoreticalExperience: number;
-      practicalExperience: number;
+      teoryLevel: number;
+      practicalLevel: number;
     }
   ];
 }

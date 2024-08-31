@@ -209,3 +209,32 @@ export const deleteTeam = async (teamId) => {
     console.log(e);
   }
 };
+
+export const takeSpecialization = async () => {
+  try {
+    const response = await instance.get(`/api/it-profile`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const takeCompetency = async (specializationName) => {
+  try {
+    const response = await instance.get(
+      `/api/it-profile/${specializationName}`
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const takeSuitableMember = async (data) => {
+  try {
+    const response = await instance.post(`/api/it-profile/search`, data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

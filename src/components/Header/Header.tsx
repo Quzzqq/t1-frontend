@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { logout, selectIsAuth } from "../../redux/slices/auth";
 import { useAppDispatch } from "../../redux/store";
@@ -32,12 +32,23 @@ export default function Header() {
   const [openNotification, setOpenNotification] = useState(false);
   const [value, setValue] = useState("");
   const [valueMyTeams, setValueMyTeams] = useState("");
+  const notificationRef = useRef(null);
   const [listMyTeams, setListMyTeams] = useState<IMyTeaM>();
   const [startTimeout, setStartTimeout] = useState(false);
   const isAuth = useSelector(selectIsAuth);
   const userId = useSelector(
     (state) => state.auth.data && state.auth.data.userId
   );
+  const handleClickOutside = (event) => {
+    if (
+      notificationRef.current &&
+      event.target.name !== "accept" &&
+      event.target.name !== "cancel"
+    ) {
+      setOpenNotification(false);
+    }
+  };
+
   const handleChangeFind = async (newValue) => {
     try {
       const response = await takeTeamFromFind(newValue);
@@ -57,6 +68,13 @@ export default function Header() {
     }
   };
   useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
     const checkCurrentInvites = async () => {
       const response = await checkInvites(userId);
       setDataInvites(response);
@@ -72,9 +90,11 @@ export default function Header() {
 
   const handleAccept = async (team: INotifications) => {
     try {
-      setOpenNotification(false);
-      await acceptInvite(team.id);
-      setDataInvites((prev) => prev?.filter((item) => item !== team));
+      if (window.confirm("Вы действительно хотите принять приглашение?")) {
+        setOpenNotification(false);
+        await acceptInvite(team.id);
+        setDataInvites((prev) => prev?.filter((item) => item !== team));
+      }
     } catch (err) {
       alert("Произошла ошибка");
       console.log(err);
@@ -82,9 +102,11 @@ export default function Header() {
   };
   const handleDecline = async (team: INotifications) => {
     try {
-      setOpenNotification(false);
-      await declineInvite(team.id);
-      setDataInvites((prev) => prev?.filter((item) => item !== team));
+      if (window.confirm("Вы действительно не хотите принять приглашение?")) {
+        setOpenNotification(false);
+        await declineInvite(team.id);
+        setDataInvites((prev) => prev?.filter((item) => item !== team));
+      }
     } catch (err) {
       alert("Произошла ошибка");
       console.log(err);
@@ -154,8 +176,10 @@ export default function Header() {
             />
           </div>
           <div
+            ref={notificationRef}
             className={styles.notificationAreaFull}
             onClick={() => setOpenNotification((prev) => !prev)}
+            onBlur={() => setOpenNotification(false)}
           >
             <div className={styles.invitesBtn}>
               <img
@@ -184,12 +208,14 @@ export default function Header() {
                     </Link>
                     <div className={styles.btnsNotification}>
                       <button
+                        name="accept"
                         className={styles.confirmInvite}
                         onClick={() => handleAccept(team)}
                       >
                         Принять
                       </button>
                       <button
+                        name="cancel"
                         className={styles.cancelInvite}
                         onClick={() => handleDecline(team)}
                       >
