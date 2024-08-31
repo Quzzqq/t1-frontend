@@ -14,14 +14,8 @@ import {
 } from "../../service/HomeService";
 import { IDataTeam, IMyTeaM, INotifications } from "./types";
 import { takeMyTeams } from "../../service/teamService";
-import { Dropdown } from "@mui/base/Dropdown";
-import { MenuButton } from "@mui/base/MenuButton";
-import { Menu } from "@mui/base/Menu";
-import { MenuItem } from "@mui/base/MenuItem";
 import BellWithAlert from "../../components/img/BellWithAlert.png";
-import BellWithoutAlert from "../../components/img/BellWithoutAlert.png";
-import instance from "../../axios/axios";
-import { error } from "console";
+import BellWithoutAlert from "../../components/img/BellWithOutAlert.png";
 
 export default function Header() {
   const navigate = useNavigate();

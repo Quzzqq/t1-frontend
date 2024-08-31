@@ -2,8 +2,8 @@ import axios from "axios";
 import { error } from "console";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:8081",
-  baseURL: "10.4.56.59:8081",
+  baseURL: "http://localhost:8081",
+  // baseURL: "10.4.56.59:8081",
   headers: {
     "Content-Type": "application/json",
   },
